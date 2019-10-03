@@ -18,11 +18,6 @@ public class PlayerInput : MonoBehaviour
     private bool pause;
     private bool jump;
 
-    [SerializeField]
-    private float attackInputDuration = 0.03f;
-
-    WaitForSeconds attackInputWait;
-
     public bool IsMoveInput
     {
         get { return !Mathf.Approximately(movement.sqrMagnitude, 0f); }
@@ -55,8 +50,6 @@ public class PlayerInput : MonoBehaviour
 
     void Awake()
     {
-        attackInputWait = new WaitForSeconds(attackInputDuration);
-
         if (instance == null)
         {
             instance = this;
@@ -79,21 +72,6 @@ public class PlayerInput : MonoBehaviour
 
         jump = Input.GetButtonDown("Jump");
         pause = Input.GetButtonDown("Pause");
-
-        if (Input.GetButtonDown("Attack"))
-        {
-            StartCoroutine(attackWait());
-        }
-
+        attack = Input.GetButtonDown("Attack");
     }
-
-    IEnumerator attackWait()
-    {
-        attack = true;
-
-        yield return attackInputWait;
-
-        attack = false;
-    }
-
 }

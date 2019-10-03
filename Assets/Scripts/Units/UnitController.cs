@@ -10,29 +10,34 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
     [SerializeField]
     protected float maxMovementSpeed = 5f;
     [SerializeField]
-    protected float jumpPower = 20f;
+    protected float jumpPower = 10f;
     [SerializeField]
+    [Range(0.0f, 3600.0f)]
     protected float maxTurnSpeed = 1200f;
     [SerializeField]
-    protected float minTurnSpeed = 400f;
+    [Range(0.0f, 3600.0f)]
+    protected float minTurnSpeed = 600f;
     [SerializeField]
-    protected float groundAcceleration = 20f;
+    protected float groundAcceleration = 15f;
     [SerializeField]
     protected float groundDeceleration = 30f;
 
     protected float targetMovementSpeed;
     protected float movementSpeed;
     protected float verticalMovementSpeed;
+    protected float acceleration;
 
     protected Quaternion targetRotation;
 
     protected bool isGrounded;
+    protected bool isPrevGrounded;
     protected bool inAttacking;
+    protected bool canAttack;
 
-    protected const float fixingGravityProportion = 0.3f;
     protected const float groundedRayDistance = 0.8f;
     protected const float gravity = 20f;
-    protected const float airborneTurnSpeedProportion = 0.3f;
+    protected const float airborneTurnSpeedProportion = 0.5f;
+    protected const float fixingGravityProportion = 1.0f;
 
     protected CharacterController characterController;
     protected Animator animator;
@@ -46,9 +51,9 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
     protected const string deathStr = "Death";
     protected const string hurtStr = "Hurt";
     protected const string hurtFromXStr = "HurtFromX";
-    protected const string hurtFromYStr = "HurtFromY";
+    protected const string hurtFromZStr = "HurtFromZ";
 
-    protected void initialize()
+    protected virtual void initialize()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -59,6 +64,8 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
 
     protected IEnumerator beginAttackMotion()
     {
+        inAttacking = true;
+
         animator.SetTrigger(meleeAttackStr);
 
         while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
@@ -100,11 +107,6 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         }
     }
 
-    protected void checkCanAttack()
-    {
-
-    }
-
     private void die(Damageable.DamageMessage msg)
     {
         animator.SetTrigger(deathStr);
@@ -122,7 +124,7 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
 
         animator.SetTrigger(hurtStr);
         animator.SetFloat(hurtFromXStr, localDirection.x);
-        animator.SetFloat(hurtFromYStr, localDirection.z);
+        animator.SetFloat(hurtFromZStr, localDirection.z);
     }
 
     protected virtual void moveUnit()
@@ -137,23 +139,18 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         {
             movementVec = movementSpeed * transform.forward * Time.deltaTime;
         }
-
         movementVec += verticalMovementSpeed * transform.up * Time.deltaTime;
 
         characterController.transform.rotation *= animator.deltaRotation;
         characterController.Move(movementVec);
 
         checkGrounded();
-
-        if (!isGrounded)
-        {
-            animator.SetFloat(verticalMovementSpeedStr, verticalMovementSpeed);
-        }
         animator.SetBool(groundedStr, isGrounded);
     }
 
     protected virtual void checkGrounded()
     {
+        isPrevGrounded = isGrounded;
         isGrounded = characterController.isGrounded;
     }
 
@@ -162,12 +159,34 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         moveUnit();
     }
 
-    protected abstract void calculateHorizontalMovement();
+    protected virtual void calculateHorizontalMovement()
+    {
+        movementSpeed = Mathf.MoveTowards(movementSpeed, targetMovementSpeed, acceleration * Time.deltaTime);
 
-    protected abstract void calculateVerticalMovement();
+        animator.SetFloat(movementSpeedStr, movementSpeed);
+    }
 
-    protected abstract void updateOrientation();
+    protected virtual void calculateVerticalMovement()
+    {
+        if (isGrounded)
+        {
+            verticalMovementSpeed = -gravity * fixingGravityProportion;
+        }
+        else
+        {
+            if (isGrounded != isPrevGrounded)
+            {
+                verticalMovementSpeed = 0;
+            }
 
-    protected abstract void setTargetRotation();
+            verticalMovementSpeed -= gravity * Time.deltaTime;
+        }
+
+        animator.SetFloat(verticalMovementSpeedStr, verticalMovementSpeed);
+    }
+
+    protected virtual void updateOrientation() { }
+
+    protected virtual void setTargetRotation() { }
 
 }

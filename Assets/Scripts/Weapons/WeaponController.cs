@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Weapon;
 
 public class WeaponController : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class WeaponController : MonoBehaviour
         public Transform attackRoot;
     }
 
+    [SerializeField]
+    private WeaponType weaponType;
     [SerializeField]
     private int damage;
     [SerializeField]
@@ -62,7 +65,7 @@ public class WeaponController : MonoBehaviour
 
         damageMessage = new Damageable.DamageMessage();
         damageMessage.damageAmount = damage;
-        damageMessage.damager = this;
+        damageMessage.damager = this.gameObject;
     }
 
     public void beginAttack()
@@ -112,15 +115,10 @@ public class WeaponController : MonoBehaviour
 
     private bool checkDamage(Collider collider, AttackPoint attackPoint)
     {
-        if (collider.gameObject == owner)
-        {
-            return true;
-        }
-
         var damageableScript = collider.GetComponent<Damageable>();
         var gameObject = collider.gameObject;
 
-        if (damageableScript != null && !damagedObjectsList.Contains(gameObject))
+        if (damageableScript != null && collider.gameObject != owner && !damagedObjectsList.Contains(gameObject))
         {
             damageMessage.damageSource = owner.transform.position;
 

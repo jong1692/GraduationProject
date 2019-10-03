@@ -11,18 +11,13 @@ public class Damageable : MonoBehaviour
     public struct DamageMessage
     {
         public int damageAmount;
-        public MonoBehaviour damager;
+        public GameObject damager;
         public Vector3 damageSource;
     }
 
     [SerializeField]
     private int maxHitPoint = 100;
     private int curHitPoint;
-
-    [SerializeField]
-    private UnityEvent OnDeath, OnReceiveDamage;
-    System.Action action;
-
 
     public int CurHitPoint
     {
@@ -47,24 +42,8 @@ public class Damageable : MonoBehaviour
         }
 
         curHitPoint -= msg.damageAmount;
-        if (curHitPoint <= 0)
-        {
-            action += OnDeath.Invoke;
-        }
-        else
-        {
-            action += OnReceiveDamage.Invoke;
-        }
 
         MessageType messageType = curHitPoint <= 0 ? MessageType.DEAD : MessageType.DAMAGED;
         GetComponent<UnitController>().receiveMessage(messageType, this, msg);
-    }
-
-    void FixedUpdate()
-    {
-        if (action != null)
-        {
-            action();
-        }
     }
 }

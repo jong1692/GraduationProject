@@ -8,22 +8,11 @@ public class EnemyController : UnitController
 {
     private NavMeshAgent navMeshAgent;
     private GameObject target;
-
-    private bool canFollowTarget;
-
-    const string  twoHandSwordIdleAnimationStr = "2Hand-Sword-Idle";
+    private float attackDelay;
 
     void Awake()
     {
         initialize();
-
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.updatePosition = false;
-
-        target = GameObject.Find("Player");
-
-        canFollowTarget = false;
-        canFollowTarget = true;
     }
 
     void FixedUpdate()
@@ -32,69 +21,67 @@ public class EnemyController : UnitController
 
         calculateHorizontalMovement();
         calculateVerticalMovement();
+
+        if (canAttack)
+        {
+            StopCoroutine(beginAttackMotion());
+            StartCoroutine(beginAttackMotion());
+        }
+
+        Func();
+    }
+
+    private void Func()
+    {
+        float distance = (transform.position - target.transform.position).magnitude;
+        if (distance < navMeshAgent.stoppingDistance)
+        {
+            navMeshAgent.isStopped = true;
+
+            animator.SetFloat(movementSpeedStr, 0);
+        }
+        else
+        {
+            navMeshAgent.isStopped = false;
+        }
+    }
+
+    protected override void initialize()
+    {
+        base.initialize();
+
+        navMeshAgent = GetComponent<NavMeshAgent>();
+
+        target = GameObject.Find("Player");
     }
 
     protected override void calculateHorizontalMovement()
     {
-    
-    }
+        targetMovementSpeed = maxMovementSpeed;
 
-    protected override void calculateVerticalMovement()
-    {
-        if (isGrounded)
+        if (!navMeshAgent.isStopped)
         {
-            verticalMovementSpeed = -gravity * fixingGravityProportion;
+            acceleration = groundAcceleration;
+            navMeshAgent.acceleration = groundAcceleration;
         }
         else
         {
-            if (Mathf.Approximately(verticalMovementSpeed, 0f))
-            {
-                verticalMovementSpeed = 0f;
-            }
-
-            verticalMovementSpeed -= gravity * Time.deltaTime;
+            acceleration = groundDeceleration;
+            navMeshAgent.acceleration = groundDeceleration;
         }
+
+        base.calculateHorizontalMovement();
+
+        navMeshAgent.speed = movementSpeed;
     }
-
-    protected override void updateOrientation()
-    {
-     
-    }
-
-    protected override void setTargetRotation()
-    {
- 
-    }
-
-    protected override void checkGrounded()
-    {
-        RaycastHit hit;
-        Ray ray = new Ray(transform.position + Vector3.up * groundedRayDistance * 0.5f, -Vector3.up);
-
-        isGrounded = Physics.Raycast(ray, out hit, groundedRayDistance, Physics.AllLayers, QueryTriggerInteraction.Ignore);
-    }
-
 
     protected override void moveUnit()
     {
-        checkGrounded();
-
-        if (isGrounded && canFollowTarget)
+        if (isGrounded)
         {
-            navMeshAgent.speed = maxMovementSpeed;
-            animator.SetFloat(movementSpeedStr, maxMovementSpeed);
-
             gameObject.transform.position = navMeshAgent.nextPosition;
-
-            if ((transform.position - target.transform.position).magnitude < 1.8f)
-            {
-                canFollowTarget = false;
-                animator.SetFloat(movementSpeedStr, 0);
-
-                navMeshAgent.enabled = false;
-            }
         }
-        else if (!isGrounded)
+        else
         {
             Vector3 movementVec = verticalMovementSpeed * transform.up * Time.deltaTime;
             animator.SetFloat(verticalMovementSpeedStr, verticalMovementSpeed);
@@ -103,11 +90,8 @@ public class EnemyController : UnitController
 
             navMeshAgent.Warp(transform.position);
         }
-        else
-        {
-            navMeshAgent.Warp(transform.position);
-        }
 
+        checkGrounded();
         animator.SetBool(groundedStr, isGrounded);
     }
 }

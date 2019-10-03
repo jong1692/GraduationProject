@@ -18,17 +18,7 @@ public class PlayerController : UnitController
 
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            throw new UnityException("Cannot be more than one PlayerController Script");
-        }
-
         initialize();
-        playerInput = GetComponent<PlayerInput>();
     }
 
     void FixedUpdate()
@@ -44,11 +34,25 @@ public class PlayerController : UnitController
 
         if (playerInput.Attack)
         {
-            inAttacking = true;
-
             StopCoroutine(beginAttackMotion());
             StartCoroutine(beginAttackMotion());
         }
+    }
+
+    protected override void initialize()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            throw new UnityException("Cannot be more than one PlayerController Script");
+        }
+
+        base.initialize();
+
+        playerInput = GetComponent<PlayerInput>();
     }
 
     protected override void calculateHorizontalMovement()
@@ -58,7 +62,6 @@ public class PlayerController : UnitController
 
         targetMovementSpeed = movement.magnitude * maxMovementSpeed;
 
-        float acceleration;
         if (playerInput.IsMoveInput)
         {
             acceleration = groundAcceleration;
@@ -67,26 +70,18 @@ public class PlayerController : UnitController
         {
             acceleration = groundDeceleration;
         }
-        movementSpeed = Mathf.MoveTowards(movementSpeed, targetMovementSpeed, acceleration * Time.deltaTime);
 
-        animator.SetFloat(movementSpeedStr, movementSpeed);
+        base.calculateHorizontalMovement();
     }
 
     protected override void calculateVerticalMovement()
     {
-        if (isGrounded)
-        {
-            verticalMovementSpeed = -gravity * fixingGravityProportion;
+        base.calculateVerticalMovement();
 
-            if (playerInput.Jump && !inAttacking)
-            {
-                verticalMovementSpeed = jumpPower;
-                isGrounded = false;
-            }
-        }
-        else
+        if (isGrounded && playerInput.Jump && !inAttacking)
         {
-            verticalMovementSpeed -= gravity * Time.deltaTime;
+            verticalMovementSpeed = jumpPower;
+            isGrounded = false;
         }
     }
 
