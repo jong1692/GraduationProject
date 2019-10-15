@@ -5,6 +5,7 @@ using Message;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Damageable))]
 public abstract class UnitController : MonoBehaviour, IMessageReceiver
 {
     [SerializeField]
@@ -27,31 +28,42 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
     protected float verticalMovementSpeed;
     protected float acceleration;
 
-    protected Quaternion targetRotation;
-
     protected bool isGrounded;
     protected bool isPrevGrounded;
     protected bool inAttacking;
-    protected bool canAttack;
+    protected bool isDied;
 
     protected const float groundedRayDistance = 0.8f;
     protected const float gravity = 20f;
     protected const float airborneTurnSpeedProportion = 0.5f;
     protected const float fixingGravityProportion = 1.0f;
 
+    protected Quaternion targetRotation;
     protected CharacterController characterController;
     protected Animator animator;
     protected WeaponController weaponController;
+    protected GameObject target;
 
     protected const string movementSpeedStr = "MovementSpeed";
     protected const string verticalMovementSpeedStr = "VerticalMovementSpeed";
     protected const string groundedStr = "Grounded";
-    protected const string meleeAttackStr = "MeleeAttack";
+    protected const string attackStr = "Attack";
+    protected const string inAttackingStr = "InAttacking";
     protected const string stateTimeStr = "StateTime";
     protected const string deathStr = "Death";
     protected const string hurtStr = "Hurt";
     protected const string hurtFromXStr = "HurtFromX";
     protected const string hurtFromZStr = "HurtFromZ";
+
+    public bool IsDied
+    {
+        get { return isDied; }
+    }
+
+    public GameObject Target
+    {
+        get { return target; }
+    }
 
     protected virtual void initialize()
     {
@@ -60,15 +72,22 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         weaponController = GetComponentInChildren<WeaponController>();
 
         inAttacking = false;
+        isDied = false;
     }
 
     protected IEnumerator beginAttackMotion()
     {
         inAttacking = true;
 
-        animator.SetTrigger(meleeAttackStr);
+        animator.SetBool(inAttackingStr, inAttacking);
+        animator.SetTrigger(attackStr);
 
-        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9f)
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsTag(attackStr))
+        {
+            yield return null;
+        }
+
+        while (animator.GetCurrentAnimatorStateInfo(0).IsTag(attackStr))
         {
             animator.SetFloat(stateTimeStr, animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
@@ -76,6 +95,9 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         }
 
         inAttacking = false;
+
+        animator.SetBool(inAttackingStr, inAttacking);
+        animator.ResetTrigger(hurtStr);
     }
 
     public void beginAttack()
@@ -83,14 +105,14 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         weaponController.beginAttack();
     }
 
-    public void endAttack()
+    public virtual void endAttack()
     {
         weaponController.endAttack();
     }
 
     public void resetAttackTrigger()
     {
-        animator.ResetTrigger(meleeAttackStr);
+        animator.ResetTrigger(attackStr);
     }
 
     public void receiveMessage(MessageType type, object sender, object msg)
@@ -102,17 +124,21 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
                 break;
 
             case MessageType.DEAD:
-                die((Damageable.DamageMessage)msg);
+                die();
                 break;
         }
     }
 
-    private void die(Damageable.DamageMessage msg)
+    protected virtual void die()
     {
         animator.SetTrigger(deathStr);
 
         movementSpeed = 0;
         verticalMovementSpeed = 0;
+
+        isDied = true;
+
+        gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
     private void hurt(Damageable.DamageMessage msg)

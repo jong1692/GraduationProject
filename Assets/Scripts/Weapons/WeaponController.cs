@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Weapon;
+using Particle;
 
 public class WeaponController : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class WeaponController : MonoBehaviour
     private int damage;
     [SerializeField]
     private AttackPoint[] attackPoints;
+    [SerializeField]
+    private LayerMask targetLayerMask;
+
 
     private GameObject owner;
     private Vector3[] prevPosition;
@@ -26,9 +30,10 @@ public class WeaponController : MonoBehaviour
     private List<GameObject> damagedObjectsList;
     private Damageable.DamageMessage damageMessage;
 
-    private bool inAttacking;
+    private bool inMeleeAttacking;
+    private bool inRangeAttacking;
 
-    const int bufferSize = 32;
+    const int hitBufferSize = 32;
 
     public GameObject Owner
     {
@@ -36,14 +41,14 @@ public class WeaponController : MonoBehaviour
         set { Owner = value; }
     }
 
-    public bool InAttacking
-    {
-        get { return inAttacking; }
-    }
-
     private void Awake()
     {
-        var gameObject = transform.parent.gameObject;
+        initialize();
+    }
+
+    private void initialize()
+    {
+        GameObject gameObject = transform.parent.gameObject;
         while (gameObject.transform.tag != "Player" && gameObject.transform.tag != "Enemy")
         {
             gameObject = gameObject.transform.parent.gameObject;
@@ -60,7 +65,7 @@ public class WeaponController : MonoBehaviour
         }
 
         prevPosition = new Vector3[attackPoints.Length];
-        raycastHitBuffers = new RaycastHit[bufferSize];
+        raycastHitBuffers = new RaycastHit[hitBufferSize];
         damagedObjectsList = new List<GameObject>();
 
         damageMessage = new Damageable.DamageMessage();
@@ -70,7 +75,39 @@ public class WeaponController : MonoBehaviour
 
     public void beginAttack()
     {
-        inAttacking = true;
+        switch (weaponType)
+        {
+            case WeaponType.EMPTY_HAND:
+                meleeAttack();
+
+                break;
+
+            case WeaponType.ONE_HAND_MELEE:
+                meleeAttack();
+
+                break;
+
+            case WeaponType.TWO_HAND_MELEE:
+                meleeAttack();
+
+                break;
+
+            case WeaponType.ONE_HAND_RANGE:
+                rangeAttack();
+
+                break;
+
+            case WeaponType.TWO_HAND_RANGE:
+                rangeAttack();
+
+                break;
+
+        }
+    }
+
+    private void meleeAttack()
+    {
+        inMeleeAttacking = true;
 
         for (int idx = 0; idx < attackPoints.Length; idx++)
         {
@@ -78,30 +115,51 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+    private void rangeAttack()
+    {
+        Transform target = owner.GetComponent<UnitController>().Target.transform.Find("CenterTarget");
+
+        ParticleSystem projectile = ParticleManager.Instance.getParticle(ParticleType.SHAMAN_PROJECTILE);
+
+        projectile.transform.position = transform.position;
+        projectile.GetComponent<Projectile>().shootProjectile(target.position, owner, damage);
+        projectile.Play();
+    }
+
     public void endAttack()
     {
-        inAttacking = false;
+        inMeleeAttacking = false;
+        inRangeAttacking = false;
+
         damagedObjectsList.Clear();
     }
 
     void FixedUpdate()
     {
-        if (inAttacking)
+        if (inMeleeAttacking)
         {
-            inAttack();
+            inMeleeAttack();
         }
     }
 
-    private void inAttack()
+    private void locateHitParticle(Vector3 position)
+    {
+        ParticleSystem hitParticle = ParticleManager.Instance.getParticle(ParticleType.HIT);
+
+        hitParticle.transform.position = position;
+        hitParticle.GetComponent<ParticleSystem>().Play();
+    }
+
+    private void inMeleeAttack()
     {
         for (int idx = 0; idx < attackPoints.Length; idx++)
         {
             Vector3 curPositon = attackPoints[idx].attackRoot.position;
             Vector3 attackVector = curPositon - prevPosition[idx];
 
-            Ray r = new Ray(curPositon, attackVector.normalized);
+            Ray ray = new Ray(curPositon, attackVector.normalized);
             int contacts = Physics.SphereCastNonAlloc
-                (r, attackPoints[idx].radius, raycastHitBuffers, attackVector.magnitude, ~0, QueryTriggerInteraction.Ignore);
+                (ray, attackPoints[idx].radius, raycastHitBuffers, attackVector.magnitude, targetLayerMask);
 
             for (int i = 0; i < contacts; i++)
             {
@@ -113,19 +171,22 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    private bool checkDamage(Collider collider, AttackPoint attackPoint)
+    private void checkDamage(Collider collider, AttackPoint attackPoint)
     {
-        var damageableScript = collider.GetComponent<Damageable>();
-        var gameObject = collider.gameObject;
+        Damageable damageableScript = collider.GetComponent<Damageable>();
+        GameObject gameObject = collider.gameObject;
 
-        if (damageableScript != null && collider.gameObject != owner && !damagedObjectsList.Contains(gameObject))
+        if (damageableScript != null && !damagedObjectsList.Contains(gameObject))
         {
-            damageMessage.damageSource = owner.transform.position;
+            if (collider.gameObject != owner && collider.gameObject.tag != owner.tag)
+            {
+                damageMessage.damageSource = attackPoint.attackRoot.position;
 
-            damagedObjectsList.Add(gameObject);
-            damageableScript.applyDamage(damageMessage);
+                damagedObjectsList.Add(gameObject);
+                damageableScript.applyDamage(damageMessage);
+
+                locateHitParticle(attackPoint.attackRoot.transform.position);
+            }
         }
-
-        return true;
     }
 }
