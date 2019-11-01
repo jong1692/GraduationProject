@@ -142,11 +142,12 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    private void locateHitParticle(Vector3 position)
+    private void locateHitParticle(Vector3 position, Vector3 lookAtPos)
     {
         ParticleSystem hitParticle = ParticleManager.Instance.getParticle(ParticleType.HIT);
 
         hitParticle.transform.position = position;
+        hitParticle.transform.LookAt(lookAtPos);
         hitParticle.GetComponent<ParticleSystem>().Play();
     }
 
@@ -178,15 +179,18 @@ public class WeaponController : MonoBehaviour
 
         if (damageableScript != null && !damagedObjectsList.Contains(gameObject))
         {
-            if (collider.gameObject != owner && collider.gameObject.tag != owner.tag)
-            {
-                damageMessage.damageSource = attackPoint.attackRoot.position;
+            if (damageableScript.Invincibility || collider.gameObject == owner ||
+                collider.gameObject.tag == owner.tag) return;
 
-                damagedObjectsList.Add(gameObject);
-                damageableScript.applyDamage(damageMessage);
+            damageMessage.damageSource = attackPoint.attackRoot.position;
 
-                locateHitParticle(attackPoint.attackRoot.transform.position);
-            }
+            damagedObjectsList.Add(gameObject);
+            damageableScript.applyDamage(damageMessage);
+
+            Vector3 hitPos = Vector3.Lerp(attackPoint.attackRoot.transform.position,
+                gameObject.transform.Find("CenterTarget").transform.position, attackPoint.radius);
+
+            locateHitParticle(hitPos, attackPoint.attackRoot.position);
         }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 using Message;
+using UnityEngine.UI;
 
 public class Damageable : MonoBehaviour
 {
@@ -29,9 +30,12 @@ public class Damageable : MonoBehaviour
     private Material diffuseMaterial;
     [SerializeField]
     private UnityEvent OnDeath;
+    [SerializeField]
+    private Image hpBar;
 
     private float timer;
     private float destroyStartTime;
+    private bool invincibility = false;
 
     private ParticleSystem particle;
     private Renderer modelRenderer;
@@ -44,6 +48,12 @@ public class Damageable : MonoBehaviour
         get { return curHitPoint; }
     }
 
+    public bool Invincibility
+    {
+        get { return invincibility; }
+        set { invincibility = value; }
+    }
+
     void Awake()
     {
         initialize();
@@ -52,6 +62,9 @@ public class Damageable : MonoBehaviour
     private void initialize()
     {
         curHitPoint = maxHitPoint;
+
+        if (hpBar != null)
+            hpBar.fillAmount = curHitPoint / (float)maxHitPoint;
 
         destroyStartTime = UnityEngine.Random.Range(minStartTime, maxStartTime);
         timer = 0;
@@ -62,6 +75,7 @@ public class Damageable : MonoBehaviour
 
     public IEnumerator destroyUnit()
     {
+        particle.gameObject.SetActive(true);
         if (!particle.isPlaying)
         {
             particle.Play();
@@ -97,6 +111,11 @@ public class Damageable : MonoBehaviour
     public void applyDamage(DamageMessage msg)
     {
         curHitPoint -= msg.damageAmount;
+
+        if (hpBar != null)
+        {
+            hpBar.fillAmount = curHitPoint / (float)maxHitPoint;
+        }
 
         MessageType messageType = curHitPoint <= 0 ? MessageType.DEAD : MessageType.DAMAGED;
         GetComponent<UnitController>().receiveMessage(messageType, this, msg);

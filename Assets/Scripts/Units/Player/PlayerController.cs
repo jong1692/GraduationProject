@@ -42,6 +42,38 @@ public class PlayerController : UnitController
             StopCoroutine(beginAttackMotion());
             StartCoroutine(beginAttackMotion());
         }
+
+        if (playerInput.Roll && !isDied)
+        {
+            StartCoroutine(beginRollMotion());
+        }
+    }
+
+    private IEnumerator beginRollMotion()
+    {
+        animator.SetTrigger(rollStr);
+
+        inRolling = true;
+        animator.SetBool(inRollingStr, inRolling);
+
+        damageable.Invincibility = true;
+
+        while (!checkCurAnimationWithTag(rollStr))
+        {
+            yield return null;
+        }
+
+        while (checkCurAnimationWithTag(rollStr))
+        {
+            animator.SetFloat(stateTimeStr, animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+            yield return null;
+        }
+
+        inRolling = false;
+        animator.SetBool(inRollingStr, inRolling);
+
+        damageable.Invincibility = false;
     }
 
     protected override void initialize()
@@ -49,10 +81,6 @@ public class PlayerController : UnitController
         if (instance == null)
         {
             instance = this;
-        }
-        else if (instance != this)
-        {
-            throw new UnityException("Cannot be more than one PlayerController Script");
         }
 
         base.initialize();

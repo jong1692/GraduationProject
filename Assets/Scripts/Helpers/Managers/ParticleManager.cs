@@ -41,10 +41,6 @@ public class ParticleManager : MonoBehaviour
         {
             instance = this;
         }
-        else if (instance != this)
-        {
-            throw new UnityException("Cannot be more than one ParticleManager Script");
-        }
 
         ParticleSystem particle;
         GameObject obj;
@@ -93,6 +89,6 @@ public class ParticleManager : MonoBehaviour
             }
         }
 
-        throw new UnityException("There is not exist same particle.");
+        return null;
     }
 }

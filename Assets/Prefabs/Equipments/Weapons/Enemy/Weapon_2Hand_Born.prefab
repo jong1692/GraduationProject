@@ -106,12 +106,10 @@ MonoBehaviour:
   weaponType: 2
   damage: 5
   attackPoints:
-  - radius: 0.5
+  - radius: 0.1
     attackRoot: {fileID: 2320046188375140431}
-  - radius: 0.5
+  - radius: 0.1
     attackRoot: {fileID: 2320046187370161931}
-  hitParticle: {fileID: 1091566395842728, guid: 400e06051701a8c4998087ae421728e3,
-    type: 3}
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 512

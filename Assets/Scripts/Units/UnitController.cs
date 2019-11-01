@@ -31,6 +31,7 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
     protected bool isGrounded;
     protected bool isPrevGrounded;
     protected bool inAttacking;
+    protected bool inRolling;
     protected bool isDied;
 
     protected const float groundedRayDistance = 0.8f;
@@ -43,17 +44,21 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
     protected Animator animator;
     protected WeaponController weaponController;
     protected GameObject target;
+    protected Damageable damageable;
 
     protected const string movementSpeedStr = "MovementSpeed";
     protected const string verticalMovementSpeedStr = "VerticalMovementSpeed";
     protected const string groundedStr = "Grounded";
     protected const string attackStr = "Attack";
+    protected const string locomotionStr = "Locomotion";
     protected const string inAttackingStr = "InAttacking";
     protected const string stateTimeStr = "StateTime";
     protected const string deathStr = "Death";
     protected const string hurtStr = "Hurt";
     protected const string hurtFromXStr = "HurtFromX";
     protected const string hurtFromZStr = "HurtFromZ";
+    protected const string rollStr = "Roll";
+    protected const string inRollingStr = "InRolling";
 
     public bool IsDied
     {
@@ -70,24 +75,25 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         weaponController = GetComponentInChildren<WeaponController>();
+        damageable = GetComponent<Damageable>();
 
         inAttacking = false;
         isDied = false;
     }
 
-    protected IEnumerator beginAttackMotion()
+    protected virtual IEnumerator beginAttackMotion()
     {
         inAttacking = true;
 
         animator.SetBool(inAttackingStr, inAttacking);
         animator.SetTrigger(attackStr);
 
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsTag(attackStr))
+        while (!checkCurAnimationWithTag(attackStr))
         {
             yield return null;
         }
 
-        while (animator.GetCurrentAnimatorStateInfo(0).IsTag(attackStr))
+        while (checkCurAnimationWithTag(attackStr))
         {
             animator.SetFloat(stateTimeStr, animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
@@ -98,6 +104,11 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
 
         animator.SetBool(inAttackingStr, inAttacking);
         animator.ResetTrigger(hurtStr);
+    }
+
+    protected bool checkCurAnimationWithTag(string tag)
+    {
+       return animator.GetCurrentAnimatorStateInfo(0).IsTag(tag);
     }
 
     public void beginAttack()

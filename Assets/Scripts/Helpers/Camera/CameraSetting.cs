@@ -17,7 +17,7 @@ public class CameraSetting : MonoBehaviour
 
     void Awake()
     {
-        Transform freeLookCameraTransform = transform.Find("FreeLookCamera");
+        Transform freeLookCameraTransform = transform.Find("Player_FreeLookCamera");
         if (freeLookCameraTransform != null)
         {
             freeLookCamera = freeLookCameraTransform.GetComponent<CinemachineFreeLook>();

@@ -17,6 +17,7 @@ public class PlayerInput : MonoBehaviour
     private bool attack;
     private bool pause;
     private bool jump;
+    private bool roll;
 
     public bool IsMoveInput
     {
@@ -48,15 +49,16 @@ public class PlayerInput : MonoBehaviour
         get { return jump; }
     }
 
+    public bool Roll
+    {
+        get { return roll; }
+    }
+
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
-        }
-        else if (instance != this)
-        {
-            throw new UnityException("Cannot be more than one PlayerInput Script");
         }
     }
 
@@ -73,5 +75,6 @@ public class PlayerInput : MonoBehaviour
         jump = Input.GetButtonDown("Jump");
         pause = Input.GetButtonDown("Pause");
         attack = Input.GetButtonDown("Attack");
+        roll = Input.GetButtonDown("Roll");
     }
 }

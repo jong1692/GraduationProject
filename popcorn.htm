@@ -1,0 +1,581 @@
+<html><head><title>popcorn-engine logfile</title>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<style>body
+{
+	padding-top: 44px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background: #bbbbbb;
+	margin: 0px;
+	color: #000000;
+	font-family: Consolas, Courier;
+	font-size: 10pt;
+}
+.header2
+{
+	font-size: 72px;
+	left: 5px;
+	color: #8a98b0;
+	position: absolute;
+	top: -22px
+}
+.header
+{
+	left: 0px;
+	overflow: hidden;
+	width: 100%;
+	color: #ffffff;
+	font-family: Verdana, Arial;
+	position: absolute;
+	top: 0px;
+	height: 44px;
+	background-color: #7b8aa6
+}
+.pagetitle
+{
+	font-size: 22px;
+	z-index: 100;
+	left: 5px;
+	color: #ffffff;
+	position: absolute;
+	top: 14px;
+}
+.copyright
+{
+	font-size: 10px;
+	z-index: 60;
+	left: -8px;
+	width: 100%;
+	color: #acb6c8;
+	position: absolute;
+	top: 1px;
+	text-align: right;
+	text-decoration: none;
+}
+.build
+{
+	font-size: 12px;
+	color: #eeeeee;
+	text-decoration: none;
+}
+a.header1:link
+{
+	font-size: 30px;
+	z-index: 50;
+	left: -8px;
+	width: 100%;
+	color: #a0acc0;
+	position: absolute;
+	top: 6px;
+	text-align: right;
+	text-decoration: none;
+}
+a.header1:visited
+{
+	font-size: 30px;
+	z-index: 50;
+	left: -8px;
+	width: 100%;
+	color: #a0acc0;
+	position: absolute;
+	top: 6px;
+	text-align: right;
+	text-decoration: none;
+}
+a.header1:hover
+{
+	font-size: 30px;
+	z-index: 50;
+	left: -8px;
+	width: 100%;
+	color: #acb6c8;
+	position: absolute;
+	top: 6px;
+	text-align: right;
+	text-decoration: none;
+}
+.log_caller { color: #666666; }
+.dll { color: #800070; }
+.M   { color: #000000; background-color: #DDDDDD; white-space: pre; }
+.W   { color: #000000; background-color: #FFAA33; white-space: pre; }
+.E   { color: #FFFFFF; background-color: #DD1100; white-space: pre; }
+.EC  { color: #FFFFFF; background-color: #DD0000; white-space: pre; }
+.EI  { color: #FFFFFF; background-color: #EE0000; white-space: pre; }
+.EF  { color: #FFFFFF; background-color: #FF0000; white-space: pre; }
+</style>
+</head>
+<body>
+<div class=header id=header>
+	<a class=header1 id=header1 href="http://www.popcornfx.com/">www.popcornfx.com</a>
+	<div class=copyright id=copyright>Copyright (c) Persistant Studios 2010-2017</div>
+	<div class=header2 id=header2>PopcornFX</div>
+	<div class=pagetitle id=pagetitle>PopcornFX logfile. <font class=build>build 1.12.0.38744, Mon Sep 11 16:17:01 2017 +0200</font></i></div>
+</div><div class=M><center>... STARTUP ...</center></div>
+<div class=M>[BOOT]> License: "DiscoveryPlugin"</div>
+<div class=M>[BOOT]> PopcornFX SDK build config: ...... RELEASE</div>
+<div class=M>[BOOT]> Has debug asserts: .................... NO</div>
+<div class=M>[BOOT]> Has release asserts: ................. YES</div>
+<div class=M>[BOOT]> Has anonymous asserts: ................ NO</div>
+<div class=M>[BOOT]> Has containers monitoring: ............ NO</div>
+<div class=M>[BOOT]> Has iterators debug checks: ........... NO</div>
+<div class=M>[BOOT]> Mem debug level: ....................... 0</div>
+<div class=M>[BOOT]> Has default mem allocators: .......... YES</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING Kernel ...</div>
+<div class=M>[BOOT]> [Kernel_Callstack         ]:Startup        52 usec         0 bytes      0 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_PerfMonitor       ]:Startup        14 usec       142 bytes      1 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Mem               ]:Startup         0 usec       103 bytes      1 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Containers        ]:Startup         0 usec         0 bytes      1 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Asserts           ]:Startup         0 usec         0 bytes      1 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Buffer            ]:Startup        15 usec      8223 bytes      9 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_String            ]:Startup         1 usec      2110 bytes     11 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_RTTI              ]:Startup         0 usec         0 bytes     11 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Threads           ]:Startup        17 usec         0 bytes     12 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_ThreadPool        ]:Startup         0 usec         0 bytes     12 KbTotal</div>
+<div class=M>[Kernel_CapsCpu]> Multi-Core system, Single-threaded cores</div>
+<div class=M>[Kernel_CapsCpu]>      Logical processors reported by OS : 4</div>
+<div class=M>[Kernel_CapsCpu]>      Visible logical processors        : 4</div>
+<div class=M>[Kernel_CapsCpu]>      Cores                             : 4</div>
+<div class=M>[Kernel_CapsCpu]>      Physical packages                 : 1</div>
+<div class=M>[Kernel_CapsCpu]> ---- Package 0 -------------------------</div>
+<div class=M>[Kernel_CapsCpu]>      Vendor                            : GenuineIntel</div>
+<div class=M>[Kernel_CapsCpu]>      CPU Name                          : "Intel(R) Core(TM) i5-4690 CPU @ 3.50GHz"</div>
+<div class=M>[Kernel_CapsCpu]>      Frequency                         : 3490.0 MHz (3491.503 measured)</div>
+<div class=M>[Kernel_CapsCpu]>      Microarchitecture                 : Haswell, 64-bits</div>
+<div class=M>[Kernel_CapsCpu]>      Extensions                        : VirMode DBG     PageSz4 RDTSC   MSR     PAE     MCE     CXCHG8  APIC    SEP     MTRR    PGE     </div>
+<div class=M>[Kernel_CapsCpu]>                                          MCA     CMOV    PAT     PSE36   CLFlush DebugSt ACPI    FXSR    SSnoop  HThread ThMon   ThMon2  </div>
+<div class=M>[Kernel_CapsCpu]>                                          IA64Ext PBE     ExecDis DTES64  MONITOR DS_CPL  VMEXT   SMEXT   ESpdStp CXCHG16 XTPR    PDCM    </div>
+<div class=M>[Kernel_CapsCpu]>                                          x2APIC  XSave   OsXSave TSCInv  MOVBE   POPCNT  CLMUL   BMI1    BMI2    F16C    AES     FMA3    </div>
+<div class=M>[Kernel_CapsCpu]>                                          RDRAND  MMX     SSE     SSE2    SSE3    SSSE3   SSE4_1  SSE4_2  AVX     AVX2    </div>
+<div class=M>[Kernel_CapsCpu]>      CPUID Leaves                      : 0000000D-00000008</div>
+<div class=M>[Kernel_CapsCpu]>      CACHE TYPE                  SIZE         ASSOCIATIVITY  LINE-SIZE</div>
+<div class=M>[Kernel_CapsCpu]>         L1 Data cache              32 KB             8 ways   64-bytes</div>
+<div class=M>[Kernel_CapsCpu]>         L1 Instruction cache       32 KB             8 ways   64-bytes</div>
+<div class=M>[Kernel_CapsCpu]>         L2 Unified cache          256 KB             8 ways   64-bytes</div>
+<div class=M>[Kernel_CapsCpu]>         L3 Unified cache         6144 KB            12 ways   64-bytes</div>
+<div class=M>[Kernel_CapsCpu]>      PROCESSOR  APIC_ID  PACKAGE     CORE   THREAD    CACHES</div>
+<div class=M>[Kernel_CapsCpu]>              0     0000        0        0        0    L1D[0] L1I[0] L2[0] L3[0]</div>
+<div class=M>[Kernel_CapsCpu]>              1     0002        0        1        0    L1D[1] L1I[1] L2[1] L3[0]</div>
+<div class=M>[Kernel_CapsCpu]>              2     0004        0        2        0    L1D[2] L1I[2] L2[2] L3[0]</div>
+<div class=M>[Kernel_CapsCpu]>              3     0006        0        3        0    L1D[3] L1I[3] L2[3] L3[0]</div>
+<div class=M>[BOOT]> [Kernel_CapsCpu           ]:Startup      3722 usec      1333 bytes     13 KbTotal</div>
+<div class=M>[Kernel_CapsMem]> Detecting memory:</div>
+<div class=M>[Kernel_CapsMem]>      MEMORY        :          USED     AVAILABLE         TOTAL</div>
+<div class=M>[Kernel_CapsMem]>      physical      :     6484.0 Mb     1601.0 Mb     8086.0 Mb</div>
+<div class=M>[Kernel_CapsMem]>      page file     :     9423.0 Mb     4910.0 Mb    14333.0 Mb</div>
+<div class=M>[Kernel_CapsMem]>      virtual       :     8128.0 Mb 134209600.0 Mb 134217728.0 Mb</div>
+<div class=M>[Kernel_CapsMem]>      Address range : 00007FFFFFFEFFFF - 0000000000010000</div>
+<div class=M>[BOOT]> [Kernel_CapsMem           ]:Startup       308 usec       103 bytes     13 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Profiler          ]:Startup        10 usec      2637 bytes     16 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Checksum          ]:Startup         0 usec         0 bytes     16 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Compression       ]:Startup         0 usec         0 bytes     16 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_File              ]:Startup         6 usec        39 bytes     16 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Plugins           ]:Startup         0 usec        87 bytes     16 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Scheduler         ]:Startup       210 usec     17002 bytes     33 KbTotal</div>
+<div class=M>[BOOT]> [Kernel_Resources         ]:Startup         0 usec       111 bytes     33 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING BaseObject ...</div>
+<div class=M>[BOOT]> [BaseObject               ]:Startup        29 usec     30302 bytes     63 KbTotal</div>
+<div class=M>[BOOT]> [BaseObject_HBOScope      ]:Startup        30 usec     99831 bytes    161 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING EngineUtils ...</div>
+<div class=M>[BOOT]> [EngineUtils_Random       ]:Startup         4 usec      5141 bytes    166 KbTotal</div>
+<div class=M>[BOOT]> [EngineUtils_Timeline     ]:Startup         3 usec         0 bytes    166 KbTotal</div>
+<div class=M>[BOOT]> [EngineUtils_Actions      ]:Startup       136 usec     21468 bytes    187 KbTotal</div>
+<div class=M>[BOOT]> [EngineUtils_Core         ]:Startup        75 usec     13766 bytes    200 KbTotal</div>
+<div class=M>[BOOT]> [EngineUtils_Samplers     ]:Startup        43 usec      7398 bytes    208 KbTotal</div>
+<div class=M>[BOOT]> [EngineUtils_Skeleton     ]:Startup         5 usec      3539 bytes    211 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING Compiler ...</div>
+<div class=M>[BOOT]> [Compiler                 ]:Startup       188 usec    158441 bytes    366 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING Geometrics ...</div>
+<div class=M>[BOOT]> [Geometrics_Skeleton      ]:Startup         0 usec         0 bytes    366 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_Mesh          ]:Startup        65 usec      8216 bytes    374 KbTotal</div>
+<div class=M>[Geometrics_MeshDeformers]> CPU Dispatch mapped implementation of Skeletal Skinner to 'SIMD'</div>
+<div class=M>[BOOT]> [Geometrics_MeshDeformers ]:Startup        46 usec     44285 bytes    418 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_MeshResource  ]:Startup        11 usec      4706 bytes    422 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_MeshKdTree    ]:Startup         0 usec         0 bytes    423 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_Shapes        ]:Startup        62 usec     11156 bytes    434 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_Colliders     ]:Startup         0 usec         0 bytes    434 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_Billboards    ]:Startup         0 usec         0 bytes    434 KbTotal</div>
+<div class=M>[BOOT]> [Geometrics_RectangleList ]:Startup         1 usec      4341 bytes    438 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING Imaging ...</div>
+<div class=M>[BOOT]> [Imaging_Images           ]:Startup       505 usec      4507 bytes    443 KbTotal</div>
+<div class=M>[BOOT]> |</div>
+<div class=M>[BOOT]> | ... BOOTING Particles ...</div>
+<div class=M>[Particles]> Script bindings setup : 4.06 ms</div>
+<div class=M>[BOOT]> [Particles                ]:Startup      4912 usec    898765 bytes   1320 KbTotal</div>
+<div class=M>[BOOT]> [CompilerBackend_CPU_Emulation]:Startup         2 usec     10327 bytes   1327 KbTotal</div>
+<div class=M>[Kernel_Plugins]> Registering module "CompilerBackend_CPU_Emulation" to handler "hh_compiler".</div>
+<div class=M>[Kernel_Plugins]> Registering module "PopcornFX-Image codec dds" to handler "im_codec".</div>
+<div class=M>[Kernel_Plugins]> Registering module "PopcornFX-Image codec png" to handler "im_codec".</div>
+<div class=M>[Kernel_Plugins]> Registering module "PopcornFX-Image codec targa" to handler "im_codec".</div>
+<div class=M>[Kernel_Plugins]> Registering module "PopcornFX-Image codec jpeg" to handler "im_codec".</div>
+<div class=M>[BOOT]> [UnityPlugin              ]:Startup         0 usec         0 bytes   1327 KbTotal</div>
+<div class=M>[UnityPlugin]> Startup PKFX</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M>[UnityPlugin]> _PopcornFXStartup</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M>[UnityPlugin]> Added Assets/StreamingAssets/PackFx for watching.</div>
+<div class=M>[UnityPlugin]> Exploring pack Assets/StreamingAssets/PackFx...</div>
+<div class=M>[UnityPlugin]>   -> Particles/ButterFly_sceneIntersect.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/CampFire_Events.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/CarHud_TextSampler.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/CoallBurn_SpatialLayers.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/ElectricalBall_pCoords.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Explosion_vrandFunction.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/FireFly_Attractor.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Fish_Flocking.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/FlameThrower_Ribbon.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Grenade_MeshRenderer.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Lightning_FpsConstraint.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Link_lerpFunction.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/MagicSpell_Dynamic.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/MagicSpell_Static.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Orb_rotateFunction.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Pentacle_AnimTrack.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Rain_ViewPosition.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Snow_TurbSampler.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Soul_parentFunction.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Spark_ExternEvents.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/Spark_Triggered.pkfx</div>
+<div class=M>[UnityPlugin]>   -> Particles/WorldMap_TextureSampler.pkfx</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> [MeshBuilder::LoadPkmm] "Meshes/SceneButterflies.pkmm" OK (primitives count: 336)</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/ButterFly_sceneIntersect.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/FireFly_Attractor.pkfx"</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\ButterFly_02.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/ButterFly_02.png) : 3.752 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Glow_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Glow_01.png) : 0.594 ms</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA831D76A8 buffers from maxverts=0, maxind=0 to maxvert=96128, maxind=144128 (IFORMAT=DXGI_FORMAT_R32_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA831D7B78 buffers from maxverts=0, maxind=0 to maxvert=308, maxind=398 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/ButterFly_sceneIntersect.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/ButterFly_sceneIntersect.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/CampFire_Events.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/CampFire_Events.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/CarHud_TextSampler.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/CarHud_TextSampler.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/CoallBurn_SpatialLayers.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/CoallBurn_SpatialLayers.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/ElectricalBall_pCoords.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/ElectricalBall_pCoords.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Explosion_vrandFunction.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Explosion_vrandFunction.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/FireFly_Attractor.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/FireFly_Attractor.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Fish_Flocking.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Fish_Flocking.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/FlameThrower_Ribbon.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/FlameThrower_Ribbon.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Grenade_MeshRenderer.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Grenade_MeshRenderer.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Lightning_FpsConstraint.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Lightning_FpsConstraint.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Link_lerpFunction.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Link_lerpFunction.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/MagicSpell_Dynamic.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/MagicSpell_Dynamic.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/MagicSpell_Static.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/MagicSpell_Static.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Orb_rotateFunction.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Orb_rotateFunction.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Pentacle_AnimTrack.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Pentacle_AnimTrack.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Rain_ViewPosition.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Rain_ViewPosition.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Snow_TurbSampler.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Snow_TurbSampler.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Soul_parentFunction.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Soul_parentFunction.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Spark_ExternEvents.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Spark_ExternEvents.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Spark_Triggered.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/Spark_Triggered.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/WorldMap_TextureSampler.pkfx" </div>
+<div class=M>[UnityPlugin]> FileWatcher: file modified: "Particles/WorldMap_TextureSampler.pkfx" </div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> [MeshBuilder::LoadPkmm] "Meshes/SceneButterflies.pkmm" OK (primitives count: 336)</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/CampFire_Events.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/CarHud_TextSampler.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/CoallBurn_SpatialLayers.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/ElectricalBall_pCoords.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Explosion_vrandFunction.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Fish_Flocking.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/FlameThrower_Ribbon.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Grenade_MeshRenderer.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Lightning_FpsConstraint.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Link_lerpFunction.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/MagicSpell_Dynamic.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/MagicSpell_Static.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Orb_rotateFunction.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Pentacle_AnimTrack.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Rain_ViewPosition.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Snow_TurbSampler.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Soul_parentFunction.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Spark_ExternEvents.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/Spark_Triggered.pkfx"</div>
+<div class=M>[UnityPlugin]> Preloading OK "Particles/WorldMap_TextureSampler.pkfx"</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Fire_02.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Fire_02.png) : 50.343 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Debris_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Debris_01.png) : 1.626 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Distortion_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Distortion_01.png) : 1.014 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Fire_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Fire_01.png) : 22.870 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Lightning_05.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Lightning_05.png) : 1.402 ms</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAC89F64F8 buffers from maxverts=0, maxind=0 to maxvert=320, maxind=416 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Flame_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Flame_01.png) : 0.831 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Smoke_03.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Smoke_03.png) : 2.144 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\TextAtlas.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/TextAtlas.png) : 4.109 ms</div>
+<div class=E>[UnityPlugin]> Failed loading Texture "Textures/Fx/White.png"</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/White.png) : 59.600 us</div>
+<div class=E>[UnityPlugin]> Drawer GeomBillboard 000001DAF9342E38: Could not setup the CPU billboarder</div>
+<div class=E>[UnityPlugin]> Drawer GeomBillboard 000001DAF9342E38: Could not setup any billboarder (rbmode 0)</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Coal_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Coal_01.png) : 5.383 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 960 indicies D3DFMT_INDEX16, 181 vertices, 320 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\EnergyBall_02.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/EnergyBall_02.png) : 4.719 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Glow_02.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Glow_02.png) : 2.179 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Fish_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Fish_01.png) : 3.129 ms</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAC89F6308 buffers from maxverts=0, maxind=0 to maxvert=320, maxind=416 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\SymmetricGradient_02.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/SymmetricGradient_02.png) : 0.463 ms</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAC89F5D38 buffers from maxverts=0, maxind=0 to maxvert=320, maxind=416 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Fire_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Fire_01.png) : 22.619 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Smoke_03.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Smoke_03.png) : 2.360 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Debris_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Debris_01.png) : 1.525 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Smoke_03.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Smoke_03.png) : 2.258 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\DistortionRing_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/DistortionRing_01.png) : 0.708 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 954 indicies D3DFMT_INDEX16, 231 vertices, 318 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.918 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1476 indicies D3DFMT_INDEX16, 299 vertices, 492 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.854 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1260 indicies D3DFMT_INDEX16, 265 vertices, 420 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.913 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1512 indicies D3DFMT_INDEX16, 329 vertices, 504 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.980 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1098 indicies D3DFMT_INDEX16, 261 vertices, 366 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.816 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1398 indicies D3DFMT_INDEX16, 341 vertices, 466 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.873 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1074 indicies D3DFMT_INDEX16, 216 vertices, 358 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.808 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1632 indicies D3DFMT_INDEX16, 368 vertices, 544 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.727 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 954 indicies D3DFMT_INDEX16, 231 vertices, 318 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.592 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1476 indicies D3DFMT_INDEX16, 299 vertices, 492 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.743 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1260 indicies D3DFMT_INDEX16, 265 vertices, 420 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.726 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1512 indicies D3DFMT_INDEX16, 329 vertices, 504 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.665 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1098 indicies D3DFMT_INDEX16, 261 vertices, 366 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.706 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1398 indicies D3DFMT_INDEX16, 341 vertices, 466 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.906 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1074 indicies D3DFMT_INDEX16, 216 vertices, 358 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.868 ms</div>
+<div class=M>[UnityPlugin]> RenderBuffer Mesh: setup mesh 1632 indicies D3DFMT_INDEX16, 368 vertices, 544 primitives</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Rock.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Rock.png) : 3.653 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Smoke_03.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Smoke_03.png) : 2.272 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\SymmetricGradient.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/SymmetricGradient.png) : 0.420 ms</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B12E78 buffers from maxverts=0, maxind=0 to maxvert=320, maxind=416 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Smoke_04.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Smoke_04.png) : 2.414 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Trail_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Trail_01.png) : 0.408 ms</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=0, maxind=0 to maxvert=320, maxind=416 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\SymmetricGradient_02.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/SymmetricGradient_02.png) : 0.407 ms</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13DF8 buffers from maxverts=0, maxind=0 to maxvert=320, maxind=416 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Stars_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Stars_01.png) : 0.946 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Glow_06.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Glow_06.png) : 0.551 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Glow_03.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Glow_03.png) : 0.427 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Flame_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Flame_01.png) : 0.677 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Droplet_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Droplet_01.png) : 0.765 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\DistortionRing_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/DistortionRing_01.png) : 0.738 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\RingDrop_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/RingDrop_01.png) : 0.894 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Smoke_02.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Smoke_02.png) : 2.037 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\RainMulti_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/RainMulti_01.png) : 1.138 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Droplet_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Droplet_01.png) : 0.497 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\DirtPieces_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/DirtPieces_01.png) : 1.738 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Branch_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Branch_01.png) : 1.457 ms</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13068 buffers from maxverts=0, maxind=0 to maxvert=320, maxind=416 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Smoke_02.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Smoke_02.png) : 1.958 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Smoke_02.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Smoke_02.png) : 1.965 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Glow_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Glow_01.png) : 0.406 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Spark_03.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Spark_03.png) : 0.413 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Glow_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Glow_01.png) : 0.411 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Spark_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Spark_01.png) : 0.419 ms</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\Shape_01.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/Shape_01.png) : 0.603 ms</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA831D76A8 buffers from maxverts=0, maxind=0 to maxvert=96128, maxind=144128 (IFORMAT=DXGI_FORMAT_R32_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA831D7B78 buffers from maxverts=0, maxind=0 to maxvert=308, maxind=398 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Reloading OK "Particles/ButterFly_sceneIntersect.pkfx"</div>
+<div class=M>[UnityPlugin]> Reloading OK "Particles/FireFly_Attractor.pkfx"</div>
+<div class=W>[UnityPlugin]> Performance warning: Texture has no mipmaps (Textures\Fx\ButterFly_02.png)</div>
+<div class=M>[Kernel_Profiler]> Loaded 2D Texture (Textures/Fx/ButterFly_02.png) : 3.582 ms</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA82068058 buffers from maxverts=0, maxind=0 to maxvert=224, maxind=272 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> [MeshBuilder::LoadPkmm] "Meshes/SceneButterflies.pkmm" OK (primitives count: 336)</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=W>[UnityPlugin]> Unsupported attribute sampler : Butterfly_Turb</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA82068058 buffers from maxverts=0, maxind=0 to maxvert=96128, maxind=144128 (IFORMAT=DXGI_FORMAT_R32_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA831D7B78 buffers from maxverts=0, maxind=0 to maxvert=308, maxind=398 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> [MeshBuilder::LoadPkmm] "Meshes/SceneButterflies.pkmm" OK (primitives count: 336)</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> [MeshBuilder::LoadPkmm] "Meshes/SceneButterflies.pkmm" OK (primitives count: 336)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA914FA3C8 buffers from maxverts=0, maxind=0 to maxvert=17528, maxind=26228 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAC89F5D38 buffers from maxverts=0, maxind=0 to maxvert=140, maxind=146 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DB14BCF078 buffers from maxverts=0, maxind=0 to maxvert=140, maxind=146 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAEFA9AD78 buffers from maxverts=0, maxind=0 to maxvert=134, maxind=137 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAC89F5D38 buffers from maxverts=140, maxind=146 to maxvert=278, maxind=353 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DB14BCF078 buffers from maxverts=140, maxind=146 to maxvert=278, maxind=353 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAC89F5D38 buffers from maxverts=278, maxind=353 to maxvert=482, maxind=659 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DB14BCF078 buffers from maxverts=278, maxind=353 to maxvert=482, maxind=659 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAEFA9AD78 buffers from maxverts=134, maxind=137 to maxvert=266, maxind=335 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAEFA9AD78 buffers from maxverts=266, maxind=335 to maxvert=464, maxind=632 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAF91F6C38 buffers from maxverts=0, maxind=0 to maxvert=140, maxind=146 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=0, maxind=0 to maxvert=212, maxind=254 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=0, maxind=0 to maxvert=182, maxind=209 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=212, maxind=254 to maxvert=464, maxind=632 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=182, maxind=209 to maxvert=386, maxind=515 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=464, maxind=632 to maxvert=788, maxind=1118 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=386, maxind=515 to maxvert=728, maxind=1028 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=788, maxind=1118 to maxvert=1268, maxind=1838 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAF91F6C38 buffers from maxverts=140, maxind=146 to maxvert=284, maxind=362 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=728, maxind=1028 to maxvert=1226, maxind=1775 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=1268, maxind=1838 to maxvert=2078, maxind=3053 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=1226, maxind=1775 to maxvert=2042, maxind=2999 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAF91F6C38 buffers from maxverts=284, maxind=362 to maxvert=506, maxind=695 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=2078, maxind=3053 to maxvert=3236, maxind=4790 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=2042, maxind=2999 to maxvert=3164, maxind=4682 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAF91F6C38 buffers from maxverts=506, maxind=695 to maxvert=836, maxind=1190 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=3164, maxind=4682 to maxvert=4886, maxind=7265 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=3236, maxind=4790 to maxvert=4958, maxind=7373 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAF91F6C38 buffers from maxverts=836, maxind=1190 to maxvert=1340, maxind=1946 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=4886, maxind=7265 to maxvert=7562, maxind=11279 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=4958, maxind=7373 to maxvert=7634, maxind=11387 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAF91F6C38 buffers from maxverts=1340, maxind=1946 to maxvert=2090, maxind=3071 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=7562, maxind=11279 to maxvert=11432, maxind=17084 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=7634, maxind=11387 to maxvert=11564, maxind=17282 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=11432, maxind=17084 to maxvert=17396, maxind=26030 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAF91F6C38 buffers from maxverts=2090, maxind=3071 to maxvert=3392, maxind=5024 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=11564, maxind=17282 to maxvert=17444, maxind=26102 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=17396, maxind=26030 to maxvert=26246, maxind=39305 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAF91F6C38 buffers from maxverts=3392, maxind=5024 to maxvert=5162, maxind=7679 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=17444, maxind=26102 to maxvert=26438, maxind=39593 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=26246, maxind=39305 to maxvert=39800, maxind=59636 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAF91F6C38 buffers from maxverts=5162, maxind=7679 to maxvert=7832, maxind=11684 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=26438, maxind=39593 to maxvert=39968, maxind=59888 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=39800, maxind=59636 to maxvert=59930, maxind=89831 (IFORMAT=D3DFMT_INDEX16) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DAF91F6C38 buffers from maxverts=7832, maxind=11684 to maxvert=11828, maxind=17678 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing FxMesh 000001DA8274CD78 buffers from maxverts=39968, maxind=59888 to maxvert=60206, maxind=90245 (IFORMAT=DXGI_FORMAT_R16_UINT) (COLORS=FLOAT4)</div>
+<div class=M>[UnityPlugin]> Growing Ribbons 000001DAA2B13828 buffers from maxverts=59930, maxind=89831 to maxvert=90326, maxind=135425 (IFORMAT=D3DFMT_INDEX32) (COLORS=FLOAT4)</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=W>[UnityPlugin]> Pack "Assets/StreamingAssets/PackFx" already loaded.</div>
+<div class=M>[UnityPlugin]> _PopcornFXStartup</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M>[UnityPlugin]> _PopcornFXStartup</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M>[UnityPlugin]> _PopcornFXStartup</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M>[UnityPlugin]> _PopcornFXStartup</div>
+<div class=M>[UnityPlugin]> GraphicsEventD3D11</div>
+<div class=M><center>... SHUTDOWN ...</center></div></body></html>

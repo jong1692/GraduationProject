@@ -13,6 +13,9 @@ public class EnemyController : UnitController
     [SerializeField]
     protected float attackRange = 0.9f;
 
+    [SerializeField]
+    protected int numAttackMotion = 1;
+
     protected NavMeshAgent navMeshAgent;
     protected TargetScanner targetScanner;
 
@@ -20,12 +23,14 @@ public class EnemyController : UnitController
 
     protected bool isTargetInRange;
 
+    protected const string randomAttackStr = "RandomAttack";
+
     public bool IsTargetInRange
     {
         get { return isTargetInRange; }
         set { isTargetInRange = value; }
     }
-     
+
     void Start()
     {
         initialize();
@@ -46,9 +51,41 @@ public class EnemyController : UnitController
 
         if (checkCanAttack())
         {
+            int random = Random.Range(0, numAttackMotion);
+            animator.SetInteger(randomAttackStr, random);
+
             StopCoroutine(beginAttackMotion());
             StartCoroutine(beginAttackMotion());
         }
+    }
+
+    protected override void moveUnit()
+    {
+        Vector3 movementVec = Vector3.zero;
+
+        if (isGrounded)
+        {
+            if (checkCurAnimationWithTag(attackStr))
+            {
+                movementVec = animator.deltaPosition;
+                characterController.Move(movementVec);
+            }
+
+            if (checkCurAnimationWithTag(locomotionStr))
+                transform.position = navMeshAgent.nextPosition;
+            else
+                navMeshAgent.Warp(transform.position);
+        }
+        else
+        {
+            movementVec = verticalMovementSpeed * transform.up * Time.deltaTime;
+            characterController.Move(movementVec);
+        }
+
+        characterController.transform.rotation *= animator.deltaRotation;
+
+        checkGrounded();
+        animator.SetBool(groundedStr, isGrounded);
     }
 
     public override void endAttack()
@@ -100,7 +137,7 @@ public class EnemyController : UnitController
         else
         {
             float distance = (transform.position - target.transform.position).magnitude;
-            if (attackRange > distance && !inAttacking && isTargetInRange)
+            if (attackRange > distance && isTargetInRange)
             {
                 attackTimer = 0;
                 return true;
@@ -119,6 +156,7 @@ public class EnemyController : UnitController
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.isStopped = false;
         navMeshAgent.updateRotation = false;
+        navMeshAgent.updatePosition = false;
 
         target = PlayerController.Instance.gameObject;
         isTargetInRange = false;
