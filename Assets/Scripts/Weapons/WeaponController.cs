@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Weapon;
-using Particle;
+using ObjectTypes;
 
 public class WeaponController : MonoBehaviour
 {
@@ -119,7 +119,7 @@ public class WeaponController : MonoBehaviour
     {
         Transform target = owner.GetComponent<UnitController>().Target.transform.Find("CenterTarget");
 
-        ParticleSystem projectile = ParticleManager.Instance.getParticle(ParticleType.SHAMAN_PROJECTILE);
+        ParticleSystem projectile = ObjectManager.Instance.getParticle(ParticleType.SHAMAN_PROJECTILE);
 
         projectile.transform.position = transform.position;
         projectile.GetComponent<Projectile>().shootProjectile(target.position, owner, damage);
@@ -144,7 +144,7 @@ public class WeaponController : MonoBehaviour
 
     private void locateHitParticle(Vector3 position, Vector3 lookAtPos)
     {
-        ParticleSystem hitParticle = ParticleManager.Instance.getParticle(ParticleType.HIT);
+        ParticleSystem hitParticle = ObjectManager.Instance.getParticle(ParticleType.HIT);
 
         hitParticle.transform.position = position;
         hitParticle.transform.LookAt(lookAtPos);

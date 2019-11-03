@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Particle;
+using ObjectTypes;
 
 public class Projectile : MonoBehaviour
 {
@@ -92,7 +92,7 @@ public class Projectile : MonoBehaviour
         Transform target = owner.GetComponent<UnitController>().Target.transform;
         SkinnedMeshRenderer skinnedMeshRenderer = target.GetComponentInChildren<SkinnedMeshRenderer>();
 
-        var burnParticle = ParticleManager.Instance.getParticle(ParticleType.SHAMAN_BURN);
+        var burnParticle = ObjectManager.Instance.getParticle(ParticleType.SHAMAN_BURN);
 
         var shape = burnParticle.shape;
         shape.skinnedMeshRenderer = skinnedMeshRenderer;
