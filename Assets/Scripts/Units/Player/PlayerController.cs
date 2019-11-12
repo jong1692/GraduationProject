@@ -7,8 +7,21 @@ public class PlayerController : UnitController
 {
     private static PlayerController instance;
 
+    [SerializeField]
+    private AudioSource locomotionAudioSource;
+    [SerializeField]
+    private float lockOnRadius = 7.0f;
+    [SerializeField]
+    private LayerMask lockOnLayerMask;
+    [SerializeField]
+    private Transform lockOnImage;
+
+    private RaycastHit[] raycastHitBuffers;
+
     private PlayerInput playerInput;
     private CameraSetting cameraSetting;
+
+    const int hitBufferSize = 32;
 
     public CameraSetting CameraSetting
     {
@@ -31,10 +44,10 @@ public class PlayerController : UnitController
         calculateHorizontalMovement();
         calculateVerticalMovement();
 
-        if (playerInput.IsMoveInput && !isDied)
+        if (playerInput.IsMoveInput && !isDied && !inAttacking)
         {
-            setTargetRotation();
-            updateOrientation();
+            setRotation();
+            updateRotation();
         }
 
         if (playerInput.Attack)
@@ -46,6 +59,20 @@ public class PlayerController : UnitController
         if (playerInput.Roll && !isDied)
         {
             StartCoroutine(beginRollMotion());
+        }
+
+        if (playerInput.LockOn)
+        {
+            setTarget();
+        }
+
+        if (target != null && !target.IsDied)
+        {
+            locateTargetImage();
+        }
+        else if (target != null && target.IsDied)
+        {
+            resetTarget();
         }
     }
 
@@ -76,16 +103,23 @@ public class PlayerController : UnitController
         damageable.Invincibility = false;
     }
 
+    protected override void damaged(Damageable.DamageMessage msg)
+    {
+        base.damaged(msg);
+
+        var cameraShakeScript = cameraSetting.FreeLookCamera.GetComponent<CameraShake>();
+        StartCoroutine(cameraShakeScript.cameraShake(0.25f, 0.4f));
+    }
+
     protected override void initialize()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
+        if (instance == null) instance = this;
 
         base.initialize();
 
         playerInput = GetComponent<PlayerInput>();
+
+        raycastHitBuffers = new RaycastHit[hitBufferSize];
     }
 
     protected override void calculateHorizontalMovement()
@@ -107,6 +141,20 @@ public class PlayerController : UnitController
         base.calculateHorizontalMovement();
     }
 
+    protected override void moveUnit()
+    {
+        base.moveUnit();
+
+        if (checkCurAnimationWithTag(locomotionStr) && !locomotionAudioSource.isPlaying)
+        {
+            locomotionAudioSource.Play();
+        }
+        else if (!checkCurAnimationWithTag(locomotionStr))
+        {
+            locomotionAudioSource.Stop();
+        }
+    }
+
     protected override void calculateVerticalMovement()
     {
         base.calculateVerticalMovement();
@@ -118,7 +166,54 @@ public class PlayerController : UnitController
         }
     }
 
-    protected override void updateOrientation()
+    protected void resetTarget()
+    {
+        target = null;
+        lockOnImage.gameObject.SetActive(false);
+    }
+
+    protected void locateTargetImage()
+    {
+        Transform centerTarget = target.transform.Find("CenterTarget").gameObject.transform;
+        Vector3 screen = Camera.main.WorldToScreenPoint(centerTarget.position);
+
+        lockOnImage.transform.position = screen;
+    }
+
+    protected void setTarget()
+    {
+        if (target != null)
+        {
+            resetTarget();
+            return;
+        }
+
+        Ray ray = new Ray(transform.position, Vector3.up);
+        int contacts = Physics.SphereCastNonAlloc
+            (ray, lockOnRadius, raycastHitBuffers, 1, lockOnLayerMask);
+
+        GameObject targetObj = null;
+        float distance = Mathf.Infinity;
+        for (int i = 0; i < contacts; i++)
+        {
+            Transform objTransform = raycastHitBuffers[i].transform;
+
+            if (objTransform.GetComponent<UnitController>().IsDied == true) continue;
+
+            if (distance > (transform.position - objTransform.position).sqrMagnitude)
+            {
+                distance = (transform.position - objTransform.position).sqrMagnitude;
+                targetObj = objTransform.gameObject;
+            }
+        }
+
+        if (targetObj == null) return;
+
+        target = targetObj.GetComponent<UnitController>();
+        lockOnImage.gameObject.SetActive(true);
+    }
+
+    protected override void updateRotation()
     {
         Vector3 localInput = new Vector3(playerInput.Movement.x, 0f, playerInput.Movement.z);
 
@@ -139,10 +234,25 @@ public class PlayerController : UnitController
         transform.rotation = targetRotation;
     }
 
-    protected override void setTargetRotation()
+    protected override void setRotation()
     {
         Vector3 movementDirection = playerInput.Movement;
         movementDirection.Normalize();
+
+        if (target != null)
+        {
+            Vector3 direction = target.transform.position - transform.position;
+            direction.y = 0;
+            direction.Normalize();
+
+            targetRotation = Quaternion.LookRotation(direction);
+
+            animator.SetFloat("MovementX", direction.x);
+            animator.SetFloat("MovementZ", direction.z);
+
+            return;
+        }
+
 
         Vector3 forward = Quaternion.Euler(0f, cameraSetting.FreeLookCamera.m_XAxis.Value, 0f) * Vector3.forward;
         forward.y = 0f;

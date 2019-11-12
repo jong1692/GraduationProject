@@ -49,8 +49,6 @@ MonoBehaviour:
   attackPoints:
   - radius: 0.5
     attackRoot: {fileID: 477464813370536877}
-  hitParticle: {fileID: 1091566395842728, guid: 400e06051701a8c4998087ae421728e3,
-    type: 3}
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 512

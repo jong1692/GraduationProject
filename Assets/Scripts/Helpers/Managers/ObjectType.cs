@@ -7,6 +7,7 @@ namespace ObjectTypes
     public enum ParticleType
     {
         HIT = 0,
+        CRASH,
         SHAMAN_PROJECTILE,
         SHAMAN_BURN,
     };

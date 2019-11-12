@@ -43,13 +43,14 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
     protected CharacterController characterController;
     protected Animator animator;
     protected WeaponController weaponController;
-    protected GameObject target;
+    protected UnitController target;
     protected Damageable damageable;
 
     protected const string movementSpeedStr = "MovementSpeed";
     protected const string verticalMovementSpeedStr = "VerticalMovementSpeed";
     protected const string groundedStr = "Grounded";
     protected const string attackStr = "Attack";
+    protected const string crashStr = "Crash";
     protected const string locomotionStr = "Locomotion";
     protected const string inAttackingStr = "InAttacking";
     protected const string stateTimeStr = "StateTime";
@@ -65,7 +66,7 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         get { return isDied; }
     }
 
-    public GameObject Target
+    public UnitController Target
     {
         get { return target; }
     }
@@ -116,6 +117,12 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         weaponController.beginAttack();
     }
 
+    public void setCrashTrigger()
+    {
+        animator.SetTrigger(crashStr);
+    }
+
+
     public virtual void endAttack()
     {
         weaponController.endAttack();
@@ -131,7 +138,7 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         switch (type)
         {
             case MessageType.DAMAGED:
-                hurt((Damageable.DamageMessage)msg);
+                damaged((Damageable.DamageMessage)msg);
                 break;
 
             case MessageType.DEAD:
@@ -152,7 +159,7 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
-    private void hurt(Damageable.DamageMessage msg)
+    protected virtual void damaged(Damageable.DamageMessage msg)
     {
         Vector3 direction = msg.damageSource - transform.position;
         direction.y = 0f;
@@ -222,8 +229,8 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         animator.SetFloat(verticalMovementSpeedStr, verticalMovementSpeed);
     }
 
-    protected virtual void updateOrientation() { }
+    protected virtual void updateRotation() { }
 
-    protected virtual void setTargetRotation() { }
+    protected virtual void setRotation() { }
 
 }

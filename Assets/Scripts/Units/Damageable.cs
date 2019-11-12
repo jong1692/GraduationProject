@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using System;
 using Message;
 using UnityEngine.UI;
+using ObjectTypes;
 
 public class Damageable : MonoBehaviour
 {
@@ -31,9 +32,11 @@ public class Damageable : MonoBehaviour
     [SerializeField]
     private UnityEvent OnDeath;
     [SerializeField]
-    private Image hpBar;
+    private Transform hpBar;
+    [SerializeField]
+    private AudioSource hitAudioSource;
 
-    private float timer;
+    private float destroyTimer;
     private float destroyStartTime;
     private bool invincibility = false;
 
@@ -59,15 +62,30 @@ public class Damageable : MonoBehaviour
         initialize();
     }
 
+    void Update()
+    {
+        if (hitAudioSource != null)
+        {
+            if (hitAudioSource.isPlaying)
+                hitAudioSource.pitch = Time.timeScale;
+        }
+
+        if (hpBar == null || GetComponent<PlayerController>() != null) return;
+
+        Vector3 screen = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 1.8f);
+
+        hpBar.transform.position = screen;
+    }
+
     private void initialize()
     {
         curHitPoint = maxHitPoint;
 
         if (hpBar != null)
-            hpBar.fillAmount = curHitPoint / (float)maxHitPoint;
+            hpBar.GetChild(0).GetComponent<Image>().fillAmount = curHitPoint / (float)maxHitPoint;
 
         destroyStartTime = UnityEngine.Random.Range(minStartTime, maxStartTime);
-        timer = 0;
+        destroyTimer = 0;
 
         particle = transform.Find(dissolveParticlesStr).GetComponent<ParticleSystem>();
         modelRenderer = GetComponentInChildren<Renderer>();
@@ -75,27 +93,31 @@ public class Damageable : MonoBehaviour
 
     public IEnumerator destroyUnit()
     {
-        particle.gameObject.SetActive(true);
-        if (!particle.isPlaying)
+        if (hpBar != null)
         {
-            particle.Play();
+            hpBar.gameObject.SetActive(false);
+            hpBar = null;
         }
 
-        while (timer < destroyStartTime)
+        particle.gameObject.SetActive(true);
+        if (!particle.isPlaying)
+            particle.Play();
+
+        while (destroyTimer < destroyStartTime)
         {
-            timer += Time.deltaTime;
+            destroyTimer += Time.deltaTime;
             yield return null;
         }
 
-        timer = 0;
+        destroyTimer = 0;
         modelRenderer.material = diffuseMaterial;
 
-        while (timer < delay)
+        while (destroyTimer < delay)
         {
-            timer += Time.deltaTime;
+            destroyTimer += Time.deltaTime;
 
             Color color = modelRenderer.material.color;
-            color.a = Mathf.Lerp(color.a, 0, timer / delay);
+            color.a = Mathf.Lerp(color.a, 0, destroyTimer / delay);
 
             modelRenderer.material.color = color;
 
@@ -112,17 +134,32 @@ public class Damageable : MonoBehaviour
     {
         curHitPoint -= msg.damageAmount;
 
-        if (hpBar != null)
+        if (hpBar == null)
         {
-            hpBar.fillAmount = curHitPoint / (float)maxHitPoint;
+            hpBar = ObjectManager.Instance.getObject(ObjectType.HP_BAR).GetComponent<Image>().transform;
+            hpBar.gameObject.SetActive(true);
         }
+
+        StartCoroutine(slowMotion());
+
+        if (hitAudioSource != null)
+            hitAudioSource.Play();
+
+        hpBar.GetChild(0).GetComponent<Image>().fillAmount = curHitPoint / (float)maxHitPoint;
 
         MessageType messageType = curHitPoint <= 0 ? MessageType.DEAD : MessageType.DAMAGED;
         GetComponent<UnitController>().receiveMessage(messageType, this, msg);
 
         if (messageType == MessageType.DEAD)
-        {
             StartCoroutine(destroyUnit());
-        }
+    }
+
+    private IEnumerator slowMotion()
+    {
+        Time.timeScale = 0.001f;
+       
+        yield return new WaitForSeconds(Time.timeScale * 0.01f);
+     
+        Time.timeScale = 1f;
     }
 }

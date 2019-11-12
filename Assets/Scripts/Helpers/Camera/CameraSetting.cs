@@ -6,6 +6,13 @@ using Cinemachine;
 
 public class CameraSetting : MonoBehaviour
 {
+    private static CameraSetting instance;
+
+    public static CameraSetting Instance
+    {
+        get { return instance; }
+    }
+
     private Transform followTransform;
     private Transform lookAtTransform;
     private CinemachineFreeLook freeLookCamera;
@@ -17,6 +24,9 @@ public class CameraSetting : MonoBehaviour
 
     void Awake()
     {
+        if (instance == null)
+            instance = this;
+
         Transform freeLookCameraTransform = transform.Find("Player_FreeLookCamera");
         if (freeLookCameraTransform != null)
         {
@@ -31,9 +41,7 @@ public class CameraSetting : MonoBehaviour
             lookAtTransform = followTransform.Find("HeadTarget");
 
             if (playerController.CameraSetting == null)
-            {
                 playerController.CameraSetting = this;
-            }
         }
     }
 

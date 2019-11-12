@@ -21,14 +21,18 @@ public class WeaponController : MonoBehaviour
     [SerializeField]
     private AttackPoint[] attackPoints;
     [SerializeField]
+    private Transform crashAttackPointRoot;
+    [SerializeField]
     private LayerMask targetLayerMask;
-
+    [SerializeField]
+    private LayerMask crashLayerMask;
 
     private GameObject owner;
     private Vector3[] prevPosition;
     private RaycastHit[] raycastHitBuffers;
     private List<GameObject> damagedObjectsList;
     private Damageable.DamageMessage damageMessage;
+    private AudioSource audioSource;
 
     private bool inMeleeAttacking;
     private bool inRangeAttacking;
@@ -64,13 +68,15 @@ public class WeaponController : MonoBehaviour
             owner = gameObject;
         }
 
+        audioSource = GetComponent<AudioSource>();
+
         prevPosition = new Vector3[attackPoints.Length];
         raycastHitBuffers = new RaycastHit[hitBufferSize];
         damagedObjectsList = new List<GameObject>();
 
         damageMessage = new Damageable.DamageMessage();
         damageMessage.damageAmount = damage;
-        damageMessage.damager = this.gameObject;
+        damageMessage.damager = owner;
     }
 
     public void beginAttack()
@@ -142,13 +148,44 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    private void locateHitParticle(Vector3 position, Vector3 lookAtPos)
+    private IEnumerator locateHitParticle(Vector3 position, Vector3 lookAtPos)
     {
         ParticleSystem hitParticle = ObjectManager.Instance.getParticle(ParticleType.HIT);
 
         hitParticle.transform.position = position;
         hitParticle.transform.LookAt(lookAtPos);
-        hitParticle.GetComponent<ParticleSystem>().Play();
+        hitParticle.gameObject.SetActive(true);
+        hitParticle.Play();
+
+        while (hitParticle.isPlaying)
+        {
+            yield return null;
+        }
+
+        hitParticle.gameObject.SetActive(false);
+    }
+
+    private IEnumerator locateCrashParticle(Vector3 position, Vector3 lookAtPos)
+    {
+        ParticleSystem crashParticle = ObjectManager.Instance.getParticle(ParticleType.CRASH);
+
+        crashParticle.transform.position = position;
+        crashParticle.transform.LookAt(lookAtPos);
+        crashParticle.gameObject.SetActive(true);
+        crashParticle.Play();
+
+        crashParticle.GetComponentInChildren<Light>().enabled = true;
+
+        yield return new WaitForSeconds(0.05f);
+
+        crashParticle.GetComponentInChildren<Light>().enabled = false;
+
+        while (crashParticle.isPlaying)
+        {
+            yield return null;
+        }
+
+        crashParticle.gameObject.SetActive(false);
     }
 
     private void inMeleeAttack()
@@ -168,8 +205,35 @@ public class WeaponController : MonoBehaviour
                 checkDamage(collider, attackPoints[idx]);
             }
 
+            contacts = Physics.SphereCastNonAlloc
+               (ray, attackPoints[idx].radius, raycastHitBuffers, attackVector.magnitude, crashLayerMask);
+            for (int i = 0; i < contacts; i++)
+            {
+                Collider collider = raycastHitBuffers[i].collider;
+                crash(collider, attackPoints[idx]);
+
+                if (attackPoints[idx].attackRoot == crashAttackPointRoot)
+                {
+                    owner.GetComponent<UnitController>().setCrashTrigger();
+                    inMeleeAttacking = false;
+                    return;
+                }
+            }
+
+
             prevPosition[idx] = curPositon;
         }
+    }
+
+    private void crash(Collider collider, AttackPoint attackPoint)
+    {
+        if (damagedObjectsList.Contains(collider.gameObject)) return;
+        damagedObjectsList.Add(collider.gameObject);
+
+        if (audioSource)
+            audioSource.Play();
+
+        StartCoroutine(locateCrashParticle(attackPoint.attackRoot.transform.position, owner.transform.position));
     }
 
     private void checkDamage(Collider collider, AttackPoint attackPoint)
@@ -190,7 +254,7 @@ public class WeaponController : MonoBehaviour
             Vector3 hitPos = Vector3.Lerp(attackPoint.attackRoot.transform.position,
                 gameObject.transform.Find("CenterTarget").transform.position, attackPoint.radius);
 
-            locateHitParticle(hitPos, attackPoint.attackRoot.position);
+            StartCoroutine(locateHitParticle(hitPos, attackPoint.attackRoot.position));
         }
     }
 }

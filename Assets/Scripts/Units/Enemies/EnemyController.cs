@@ -43,8 +43,8 @@ public class EnemyController : UnitController
 
         if (isTargetInRange)
         {
-            setTargetRotation();
-            updateOrientation();
+            setRotation();
+            updateRotation();
 
             chaseTarget();
         }
@@ -95,7 +95,7 @@ public class EnemyController : UnitController
         resetAttackTrigger();
     }
 
-    protected override void setTargetRotation()
+    protected override void setRotation()
     {
         Vector3 direction = target.transform.position - transform.position;
         direction.y = 0;
@@ -104,7 +104,7 @@ public class EnemyController : UnitController
         targetRotation = Quaternion.LookRotation(direction);
     }
 
-    protected override void updateOrientation()
+    protected override void updateRotation()
     {
         targetRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, maxTurnSpeed * Time.deltaTime);
 
@@ -128,20 +128,27 @@ public class EnemyController : UnitController
         }
     }
 
+    protected override void damaged(Damageable.DamageMessage msg)
+    {
+        base.damaged(msg);
+
+        var cameraShakeScript = CameraSetting.Instance.FreeLookCamera.GetComponent<CameraShake>();
+        StartCoroutine(cameraShakeScript.cameraShake(0.2f, 0.15f));
+    }
+
     protected bool checkCanAttack()
     {
         if (attackTimer < attackDelay)
         {
             attackTimer += Time.deltaTime;
+            return false;
         }
-        else
+
+        float distance = (transform.position - target.transform.position).magnitude;
+        if (attackRange > distance && isTargetInRange)
         {
-            float distance = (transform.position - target.transform.position).magnitude;
-            if (attackRange > distance && isTargetInRange)
-            {
-                attackTimer = 0;
-                return true;
-            }
+            attackTimer = 0;
+            return true;
         }
 
         return false;
@@ -158,7 +165,7 @@ public class EnemyController : UnitController
         navMeshAgent.updateRotation = false;
         navMeshAgent.updatePosition = false;
 
-        target = PlayerController.Instance.gameObject;
+        target = PlayerController.Instance.gameObject.GetComponent<UnitController>();
         isTargetInRange = false;
 
         attackTimer = attackDelay;

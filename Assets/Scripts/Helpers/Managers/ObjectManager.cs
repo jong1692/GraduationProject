@@ -76,6 +76,8 @@ public class ObjectManager : MonoBehaviour
                 ParticleSystem particle = obj.GetComponentInChildren<ParticleSystem>();
                 particle.Stop();
 
+                obj.SetActive(false);
+
                 particlePools[poolIdx].particlePool[idx] = particle;
             }
         }
@@ -83,7 +85,7 @@ public class ObjectManager : MonoBehaviour
 
     private void initObjectPools()
     {
-        for (int poolIdx = 0; poolIdx < particlePools.Length; poolIdx++)
+        for (int poolIdx = 0; poolIdx < objectPools.Length; poolIdx++)
         {
             int size = objectPools[poolIdx].objectPoolSize;
             objectPools[poolIdx].objectPool = new GameObject[size];
@@ -91,6 +93,7 @@ public class ObjectManager : MonoBehaviour
             for (int idx = 0; idx < objectPools[poolIdx].objectPoolSize; idx++)
             {
                 GameObject obj = Instantiate(objectPools[poolIdx].obj, objectPools[poolIdx].parent);
+                obj.SetActive(false);
 
                 objectPools[poolIdx].objectPool[idx] = obj;
             }
@@ -99,14 +102,10 @@ public class ObjectManager : MonoBehaviour
 
     public ParticleSystem getParticle(ParticleType particleType)
     {
-        ParticleSystem particle = null;
-
         for (int poolIdx = 0; poolIdx < particlePools.Length; poolIdx++)
         {
             if (particlePools[poolIdx].particleType == particleType)
             {
-                ParticlePool particlePool = particlePools[poolIdx];
-
                 for (int idx = 0; idx < particlePools[poolIdx].particlePoolSize; idx++)
                 {
                     if (!particlePools[poolIdx].particlePool[idx].isPlaying)
@@ -115,7 +114,8 @@ public class ObjectManager : MonoBehaviour
                     }
                 }
 
-                particle = Instantiate(particlePool.particle, particlePool.parent).GetComponent<ParticleSystem>();
+                ParticlePool particlePool = particlePools[poolIdx];
+                ParticleSystem particle = Instantiate(particlePool.particle, particlePool.parent).GetComponent<ParticleSystem>();
                 particle.Stop();
 
                 Destroy(particle.gameObject, 10.0f);
@@ -127,33 +127,28 @@ public class ObjectManager : MonoBehaviour
         return null;
     }
 
-    //public ParticleSystem getParticle(ParticleType particleType)
-    //{
-    //    ParticleSystem particle = null;
+    public GameObject getObject(ObjectType objectType)
+    {
+        for (int poolIdx = 0; poolIdx < objectPools.Length; poolIdx++)
+        {
+            if (objectPools[poolIdx].objectType == objectType)
+            {
+                for (int idx = 0; idx < objectPools[poolIdx].objectPoolSize; idx++)
+                {
+                    if (!objectPools[poolIdx].objectPool[idx].activeInHierarchy)
+                        return objectPools[poolIdx].objectPool[idx];
+                }
 
-    //    for (int poolIdx = 0; poolIdx < particlePools.Length; poolIdx++)
-    //    {
-    //        if (particlePools[poolIdx].particleType == particleType)
-    //        {
-    //            ParticlePool particlePool = particlePools[poolIdx];
+                ObjectPool objectPool = objectPools[poolIdx];
+                GameObject obj = Instantiate(objectPool.obj, objectPool.parent);
+                obj.SetActive(false);
 
-    //            for (int idx = 0; idx < particlePools[poolIdx].particlePoolSize; idx++)
-    //            {
-    //                if (!particlePools[poolIdx].particlePool[idx].isPlaying)
-    //                {
-    //                    return particlePools[poolIdx].particlePool[idx];
-    //                }
-    //            }
+                Destroy(obj.gameObject, 10.0f);
 
-    //            particle = Instantiate(particlePool.particle, particlePool.parent).GetComponent<ParticleSystem>();
-    //            particle.Stop();
+                return obj;
+            }
+        }
 
-    //            Destroy(particle.gameObject, 10.0f);
-
-    //            return particle;
-    //        }
-    //    }
-
-    //    return null;
-    //}
+        return null;
+    }
 }

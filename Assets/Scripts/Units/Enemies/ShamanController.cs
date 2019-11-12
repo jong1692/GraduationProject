@@ -36,8 +36,8 @@ public class ShamanController : EnemyController
 
         if (isTargetInRange)
         {
-            setTargetRotation();
-            updateOrientation();
+            setRotation();
+            updateRotation();
         }
 
         if (checkCanAttack())
@@ -51,7 +51,7 @@ public class ShamanController : EnemyController
     {
         if (IsTargetInRange)
         {
-            if (targetScanner.checkTargetInRange(target, runAwayStartDistance))
+            if (targetScanner.checkTargetInRange(target.gameObject, runAwayStartDistance))
             {
                 isRunAway = true;
 

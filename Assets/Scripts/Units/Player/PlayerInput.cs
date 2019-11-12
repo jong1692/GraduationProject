@@ -18,6 +18,7 @@ public class PlayerInput : MonoBehaviour
     private bool pause;
     private bool jump;
     private bool roll;
+    private bool lockOn;
 
     public bool IsMoveInput
     {
@@ -54,12 +55,21 @@ public class PlayerInput : MonoBehaviour
         get { return roll; }
     }
 
+    public bool LockOn
+    {
+        get { return lockOn; }
+    }
+
+
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
         }
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -76,5 +86,6 @@ public class PlayerInput : MonoBehaviour
         pause = Input.GetButtonDown("Pause");
         attack = Input.GetButtonDown("Attack");
         roll = Input.GetButtonDown("Roll");
+        lockOn = Input.GetButtonDown("LockOn");
     }
 }
