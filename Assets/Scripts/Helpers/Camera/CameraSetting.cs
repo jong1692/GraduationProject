@@ -15,7 +15,13 @@ public class CameraSetting : MonoBehaviour
 
     private Transform followTransform;
     private Transform lookAtTransform;
+
     private CinemachineFreeLook freeLookCamera;
+
+    private float maxSpeed_X;
+    private float maxSpeed_Y;
+
+    private bool isFixed = false;
 
     public CinemachineFreeLook FreeLookCamera
     {
@@ -45,8 +51,31 @@ public class CameraSetting : MonoBehaviour
         }
     }
 
-    void Update()
+    public void changeFiexedCamera(Transform target)
     {
+        lookAtTransform = target.Find("HeadTarget");
+
+        maxSpeed_X = freeLookCamera.m_XAxis.m_MaxSpeed;
+        freeLookCamera.m_XAxis.m_MaxSpeed = 0;
+
+        maxSpeed_Y = freeLookCamera.m_YAxis.m_MaxSpeed;
+        freeLookCamera.m_YAxis.m_MaxSpeed = 0;
+        freeLookCamera.m_YAxis.Value = 0.3f;
+
+        isFixed = true;
+
+        updateCameraSetting();
+    }
+
+    public void changeFreeCamera()
+    {
+        lookAtTransform = followTransform.Find("HeadTarget");
+
+        freeLookCamera.m_XAxis.m_MaxSpeed = maxSpeed_X;
+        freeLookCamera.m_YAxis.m_MaxSpeed = maxSpeed_Y;
+
+        isFixed = false;
+
         updateCameraSetting();
     }
 
@@ -54,5 +83,15 @@ public class CameraSetting : MonoBehaviour
     {
         freeLookCamera.Follow = followTransform;
         freeLookCamera.LookAt = lookAtTransform;
+    }
+
+    private void Update()
+    {
+        if (isFixed)
+        {
+            freeLookCamera.m_XAxis.Value = 
+                Mathf.LerpAngle(freeLookCamera.m_XAxis.Value, 
+                followTransform.rotation.eulerAngles.y, 1.0f * Time.deltaTime);
+        }
     }
 }

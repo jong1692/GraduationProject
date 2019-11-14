@@ -19,6 +19,7 @@ public class PlayerInput : MonoBehaviour
     private bool jump;
     private bool roll;
     private bool lockOn;
+    private bool block;
 
     public bool IsMoveInput
     {
@@ -38,6 +39,11 @@ public class PlayerInput : MonoBehaviour
     public bool Attack
     {
         get { return attack; }
+    }
+
+    public bool Block
+    {
+        get { return block; }
     }
 
     public bool Pause
@@ -87,5 +93,6 @@ public class PlayerInput : MonoBehaviour
         attack = Input.GetButtonDown("Attack");
         roll = Input.GetButtonDown("Roll");
         lockOn = Input.GetButtonDown("LockOn");
+        block = Input.GetMouseButton(1);
     }
 }

@@ -8,6 +8,7 @@ namespace Message
     {
         DAMAGED = 0,
         DEAD,
+        BLOCKED,
         RESPAWN,
     }
 

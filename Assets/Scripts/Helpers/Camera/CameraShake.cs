@@ -17,6 +17,8 @@ public class CameraShake : MonoBehaviour
 
     public IEnumerator cameraShake(float amount, float duration)
     {
+        if (freeLookCamera.LookAt == null) yield return null;
+
         originPos = freeLookCamera.LookAt.localPosition;
 
         float timer = 0;

@@ -44,7 +44,7 @@ public class PlayerController : UnitController
         calculateHorizontalMovement();
         calculateVerticalMovement();
 
-        if (playerInput.IsMoveInput && !isDied && !inAttacking)
+        if ((playerInput.IsMoveInput && !isDied && !inAttacking))
         {
             setRotation();
             updateRotation();
@@ -59,6 +59,15 @@ public class PlayerController : UnitController
         if (playerInput.Roll && !isDied)
         {
             StartCoroutine(beginRollMotion());
+        }
+
+        if (playerInput.Block)
+        {
+            beginBlock();
+        }
+        else if (!inLockOn)
+        {
+            endBlock();
         }
 
         if (playerInput.LockOn)
@@ -153,6 +162,12 @@ public class PlayerController : UnitController
         {
             locomotionAudioSource.Stop();
         }
+
+        if (inLockOn)
+        {
+            setRotation();
+            transform.rotation = targetRotation;
+        }
     }
 
     protected override void calculateVerticalMovement()
@@ -170,6 +185,23 @@ public class PlayerController : UnitController
     {
         target = null;
         lockOnImage.gameObject.SetActive(false);
+
+        inLockOn = false;
+        animator.SetBool(inLockOnStr, inLockOn);
+
+        cameraSetting.changeFreeCamera();
+    }
+
+    protected void beginBlock()
+    {
+        inBlocking = true;
+        animator.SetBool(inBlockingStr, inBlocking);
+    }
+
+    protected void endBlock()
+    {
+        inBlocking = false;
+        animator.SetBool(inBlockingStr, inBlocking);
     }
 
     protected void locateTargetImage()
@@ -185,6 +217,8 @@ public class PlayerController : UnitController
         if (target != null)
         {
             resetTarget();
+            endBlock();
+
             return;
         }
 
@@ -211,6 +245,13 @@ public class PlayerController : UnitController
 
         target = targetObj.GetComponent<UnitController>();
         lockOnImage.gameObject.SetActive(true);
+
+        inLockOn = true;
+        animator.SetBool(inLockOnStr, inLockOn);
+
+        cameraSetting.changeFiexedCamera(target.transform);
+
+        beginBlock();
     }
 
     protected override void updateRotation()
@@ -239,20 +280,23 @@ public class PlayerController : UnitController
         Vector3 movementDirection = playerInput.Movement;
         movementDirection.Normalize();
 
-        if (target != null)
+        if (target != null || inBlocking)
         {
-            Vector3 direction = target.transform.position - transform.position;
+            Vector3 direction;
+
+            if (target != null) direction = target.transform.position - transform.position;
+            else direction = transform.forward;
+
             direction.y = 0;
             direction.Normalize();
 
             targetRotation = Quaternion.LookRotation(direction);
 
-            animator.SetFloat("MovementX", direction.x);
-            animator.SetFloat("MovementZ", direction.z);
+            animator.SetFloat("MovementX", movementDirection.x);
+            animator.SetFloat("MovementZ", movementDirection.z);
 
             return;
         }
-
 
         Vector3 forward = Quaternion.Euler(0f, cameraSetting.FreeLookCamera.m_XAxis.Value, 0f) * Vector3.forward;
         forward.y = 0f;

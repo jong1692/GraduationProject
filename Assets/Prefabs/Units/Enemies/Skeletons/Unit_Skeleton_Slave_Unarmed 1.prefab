@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &641499764018071841
 Transform:
   m_ObjectHideFlags: 0
@@ -1192,7 +1192,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &641499764018068921
 Transform:
   m_ObjectHideFlags: 0
@@ -2666,7 +2666,7 @@ GameObject:
   - component: {fileID: 641499762789428578}
   - component: {fileID: 641499762789428579}
   m_Layer: 8
-  m_Name: Unit_Skeleton_Slave_Unarmed
+  m_Name: Unit_Skeleton_Slave_Unarmed 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

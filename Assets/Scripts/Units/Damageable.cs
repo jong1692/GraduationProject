@@ -15,6 +15,7 @@ public class Damageable : MonoBehaviour
         public int damageAmount;
         public GameObject damager;
         public Vector3 damageSource;
+        public float radius;
     }
 
     [SerializeField]
@@ -35,7 +36,9 @@ public class Damageable : MonoBehaviour
     private Transform hpBar;
     [SerializeField]
     private AudioSource hitAudioSource;
-
+    [SerializeField]
+    private AudioSource blockAudioSource;
+    
     private float destroyTimer;
     private float destroyStartTime;
     private bool invincibility = false;
@@ -130,6 +133,55 @@ public class Damageable : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public IEnumerator locateCrashParticle(Vector3 position, Vector3 lookAtPos)
+    {
+        ParticleSystem crashParticle = ObjectManager.Instance.getParticle(ParticleType.CRASH);
+
+        crashParticle.transform.position = position;
+        crashParticle.transform.LookAt(lookAtPos);
+        crashParticle.gameObject.SetActive(true);
+        crashParticle.Play();
+
+        crashParticle.GetComponentInChildren<Light>().enabled = true;
+
+        yield return new WaitForSeconds(0.02f);
+
+        crashParticle.GetComponentInChildren<Light>().enabled = false;
+
+        while (crashParticle.isPlaying)
+        {
+            yield return null;
+        }
+
+        crashParticle.gameObject.SetActive(false);
+    }
+
+    public IEnumerator locateHitParticle(Vector3 position, Vector3 lookAtPos)
+    {
+        ParticleSystem hitParticle = ObjectManager.Instance.getParticle(ParticleType.HIT);
+
+        hitParticle.transform.position = position;
+        hitParticle.transform.LookAt(lookAtPos);
+        hitParticle.gameObject.SetActive(true);
+        hitParticle.Play();
+
+        while (hitParticle.isPlaying)
+        {
+            yield return null;
+        }
+
+        hitParticle.gameObject.SetActive(false);
+    }
+
+    public void playAudio(MessageType type)
+    {
+        if (type == MessageType.DAMAGED && hitAudioSource != null)
+            hitAudioSource.Play();
+
+        if (type == MessageType.BLOCKED && blockAudioSource != null)
+            blockAudioSource.Play();
+    }
+
     public void applyDamage(DamageMessage msg)
     {
         curHitPoint -= msg.damageAmount;
@@ -141,9 +193,6 @@ public class Damageable : MonoBehaviour
         }
 
         StartCoroutine(slowMotion());
-
-        if (hitAudioSource != null)
-            hitAudioSource.Play();
 
         hpBar.GetChild(0).GetComponent<Image>().fillAmount = curHitPoint / (float)maxHitPoint;
 
@@ -157,9 +206,9 @@ public class Damageable : MonoBehaviour
     private IEnumerator slowMotion()
     {
         Time.timeScale = 0.001f;
-       
+
         yield return new WaitForSeconds(Time.timeScale * 0.01f);
-     
+
         Time.timeScale = 1f;
     }
 }

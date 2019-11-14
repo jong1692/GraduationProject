@@ -148,46 +148,6 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    private IEnumerator locateHitParticle(Vector3 position, Vector3 lookAtPos)
-    {
-        ParticleSystem hitParticle = ObjectManager.Instance.getParticle(ParticleType.HIT);
-
-        hitParticle.transform.position = position;
-        hitParticle.transform.LookAt(lookAtPos);
-        hitParticle.gameObject.SetActive(true);
-        hitParticle.Play();
-
-        while (hitParticle.isPlaying)
-        {
-            yield return null;
-        }
-
-        hitParticle.gameObject.SetActive(false);
-    }
-
-    private IEnumerator locateCrashParticle(Vector3 position, Vector3 lookAtPos)
-    {
-        ParticleSystem crashParticle = ObjectManager.Instance.getParticle(ParticleType.CRASH);
-
-        crashParticle.transform.position = position;
-        crashParticle.transform.LookAt(lookAtPos);
-        crashParticle.gameObject.SetActive(true);
-        crashParticle.Play();
-
-        crashParticle.GetComponentInChildren<Light>().enabled = true;
-
-        yield return new WaitForSeconds(0.05f);
-
-        crashParticle.GetComponentInChildren<Light>().enabled = false;
-
-        while (crashParticle.isPlaying)
-        {
-            yield return null;
-        }
-
-        crashParticle.gameObject.SetActive(false);
-    }
-
     private void inMeleeAttack()
     {
         for (int idx = 0; idx < attackPoints.Length; idx++)
@@ -227,13 +187,14 @@ public class WeaponController : MonoBehaviour
 
     private void crash(Collider collider, AttackPoint attackPoint)
     {
-        if (damagedObjectsList.Contains(collider.gameObject)) return;
-        damagedObjectsList.Add(collider.gameObject);
+        //if (damagedObjectsList.Contains(collider.gameObject)) return;
+        //damagedObjectsList.Add(collider.gameObject);
 
         if (audioSource)
             audioSource.Play();
 
-        StartCoroutine(locateCrashParticle(attackPoint.attackRoot.transform.position, owner.transform.position));
+        StartCoroutine(owner.GetComponent<Damageable>().
+            locateCrashParticle(attackPoint.attackRoot.position, owner.transform.position));
     }
 
     private void checkDamage(Collider collider, AttackPoint attackPoint)
@@ -247,14 +208,10 @@ public class WeaponController : MonoBehaviour
                 collider.gameObject.tag == owner.tag) return;
 
             damageMessage.damageSource = attackPoint.attackRoot.position;
+            damageMessage.radius = attackPoint.radius;
 
             damagedObjectsList.Add(gameObject);
             damageableScript.applyDamage(damageMessage);
-
-            Vector3 hitPos = Vector3.Lerp(attackPoint.attackRoot.transform.position,
-                gameObject.transform.Find("CenterTarget").transform.position, attackPoint.radius);
-
-            StartCoroutine(locateHitParticle(hitPos, attackPoint.attackRoot.position));
         }
     }
 }

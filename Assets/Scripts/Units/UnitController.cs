@@ -13,10 +13,8 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
     [SerializeField]
     protected float jumpPower = 10f;
     [SerializeField]
-    [Range(0.0f, 3600.0f)]
     protected float maxTurnSpeed = 1200f;
     [SerializeField]
-    [Range(0.0f, 3600.0f)]
     protected float minTurnSpeed = 600f;
     [SerializeField]
     protected float groundAcceleration = 15f;
@@ -31,6 +29,8 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
     protected bool isGrounded;
     protected bool isPrevGrounded;
     protected bool inAttacking;
+    protected bool inBlocking;
+    protected bool inLockOn;
     protected bool inRolling;
     protected bool isDied;
 
@@ -51,6 +51,9 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
     protected const string groundedStr = "Grounded";
     protected const string attackStr = "Attack";
     protected const string crashStr = "Crash";
+    protected const string inBlockingStr = "InBlocking";
+    protected const string blockStr = "Block";
+    protected const string inLockOnStr = "InLockOn";
     protected const string locomotionStr = "Locomotion";
     protected const string inAttackingStr = "InAttacking";
     protected const string stateTimeStr = "StateTime";
@@ -109,7 +112,7 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
 
     protected bool checkCurAnimationWithTag(string tag)
     {
-       return animator.GetCurrentAnimatorStateInfo(0).IsTag(tag);
+        return animator.GetCurrentAnimatorStateInfo(0).IsTag(tag);
     }
 
     public void beginAttack()
@@ -141,6 +144,10 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
                 damaged((Damageable.DamageMessage)msg);
                 break;
 
+            case MessageType.BLOCKED:
+                blocked((Damageable.DamageMessage)msg);
+                break;
+
             case MessageType.DEAD:
                 die();
                 break;
@@ -154,6 +161,8 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
         movementSpeed = 0;
         verticalMovementSpeed = 0;
 
+        damageable.playAudio(MessageType.DAMAGED);
+
         isDied = true;
 
         gameObject.layer = LayerMask.NameToLayer("Default");
@@ -161,14 +170,44 @@ public abstract class UnitController : MonoBehaviour, IMessageReceiver
 
     protected virtual void damaged(Damageable.DamageMessage msg)
     {
-        Vector3 direction = msg.damageSource - transform.position;
+        Vector3 direction = msg.damager.transform.position - transform.position;
         direction.y = 0f;
 
         var localDirection = transform.InverseTransformDirection(direction);
 
-        animator.SetTrigger(hurtStr);
+        Vector3 hitPos = Vector3.Lerp(msg.damageSource, transform.Find("CenterTarget").position, msg.radius);
+
+        if (localDirection.z > 0f && inBlocking && !inAttacking)
+        {
+            animator.SetTrigger(blockStr);
+
+            Damageable.DamageMessage damageMessage = new Damageable.DamageMessage();
+            damageMessage.damageAmount = 0;
+            damageMessage.damager = gameObject;
+            damageMessage.damageSource = transform.position;
+
+            msg.damager.GetComponent<UnitController>().receiveMessage(MessageType.BLOCKED, this, damageMessage);
+
+            damageable.playAudio(MessageType.BLOCKED);
+
+            StartCoroutine(damageable.locateCrashParticle(hitPos, msg.damager.transform.position));
+        }
+        else
+        {
+            animator.SetTrigger(hurtStr);
+
+            damageable.playAudio(MessageType.DAMAGED);
+
+            StartCoroutine(damageable.locateHitParticle(hitPos, msg.damageSource));
+        }
+
         animator.SetFloat(hurtFromXStr, localDirection.x);
         animator.SetFloat(hurtFromZStr, localDirection.z);
+    }
+
+    protected virtual void blocked(Damageable.DamageMessage msg)
+    {
+        animator.SetTrigger(crashStr);
     }
 
     protected virtual void moveUnit()
